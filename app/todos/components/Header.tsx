@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import TodoTextInput from './TodoTextInput';
 
-interface HeaderProps {
+export interface HeaderProps {
   addTodo: (text:string)=> any;
 };
 

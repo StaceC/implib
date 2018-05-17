@@ -13,14 +13,14 @@ interface TodoTextInputState {
 }
 
 class TodoTextInput extends React.Component<TodoTextInputProps, TodoTextInputState> {
-  constructor(props, context) {
+  constructor(props: TodoTextInputProps, context: TodoTextInputState) {
     super(props, context);
     this.state = {
       text: this.props.text || ''
     };
   }
 
-  handleSubmit(e) {
+  handleSubmit(e: any) {
     const text = e.target.value.trim();
     if (e.which === 13) {
       this.props.onSave(text);
@@ -30,11 +30,11 @@ class TodoTextInput extends React.Component<TodoTextInputProps, TodoTextInputSta
     }
   }
 
-  handleChange(e) {
+  handleChange(e: any) {
     this.setState({ text: e.target.value });
   }
 
-  handleBlur(e) {
+  handleBlur(e: any) {
     if (!this.props.newTodo) {
       this.props.onSave(e.target.value);
     }

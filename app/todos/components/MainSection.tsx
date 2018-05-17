@@ -11,11 +11,11 @@ import {
 
 const TODO_FILTERS = {
   [SHOW_ALL]: () => true,
-  [SHOW_ACTIVE]: todo => !todo.completed,
-  [SHOW_COMPLETED]: todo => todo.completed
+  [SHOW_ACTIVE]: (todo: Todo) => !todo.completed,
+  [SHOW_COMPLETED]: (todo: Todo) => todo.completed
 };
 
-interface MainSectionProps {
+export interface MainSectionProps {
   todos: Todo[];
   clearCompleted: ()=>void;
   completeAll: ()=>void;
@@ -23,12 +23,13 @@ interface MainSectionProps {
   completeTodo: (todo:Todo)=>void;
   deleteTodo: (todo:Todo)=>void;
 };
-interface MainSectionState {
+
+export interface MainSectionState {
   filter: string;
 };
 
 class MainSection extends React.Component<MainSectionProps, MainSectionState> {
-  constructor(props, context) {
+  constructor(props: MainSectionProps, context: MainSectionState) {
     super(props, context);
     this.state = { filter: SHOW_ALL };
   }
@@ -40,11 +41,11 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
     }
   }
 
-  handleShow(filter) {
+  handleShow(filter: string) {
     this.setState({ filter });
   }
 
-  renderToggleAll(completedCount) {
+  renderToggleAll(completedCount: number) {
     const { todos, completeAll } = this.props;
     if (todos.length > 0) {
       return (
@@ -53,10 +54,14 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
                checked={completedCount === todos.length}
                onChange={() => completeAll()} />
       );
+    } else {
+      return (
+        <text>Error - No Todos</text>
+      );
     }
   }
 
-  renderFooter(completedCount) {
+  renderFooter(completedCount: number) {
     const { todos } = this.props;
     const { filter } = this.state;
     const activeCount = todos.length - completedCount;
@@ -69,6 +74,14 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
                 onClearCompleted={this.handleClearCompleted.bind(this)}
                 onShow={this.handleShow.bind(this)} />
       );
+    } else {
+        return (
+        <Footer completedCount={0}
+              activeCount={0}
+              filter={""}
+              onClearCompleted={this.handleClearCompleted.bind(this)}
+              onShow={this.handleShow.bind(this)} />
+        );
     }
   }
 
@@ -76,8 +89,8 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
     const { todos, completeTodo, deleteTodo, editTodo } = this.props;
     const { filter } = this.state;
 
-    const filteredTodos = todos.filter(TODO_FILTERS[filter]);
-    const completedCount = todos.reduce((count: number, todo): number =>
+    const filteredTodos: Todo[] = todos.filter(TODO_FILTERS[filter]);
+    const completedCount: number = todos.reduce((count: number, todo: Todo): number =>
       todo.completed ? count + 1 : count,
       0
     );

@@ -34,8 +34,8 @@ class Footer extends React.Component<FooterProps> {
     );
   }
 
-  renderFilterLink(filter) {
-    const title = FILTER_TITLES[filter];
+  renderFilterLink(filter: string) {
+    const title: string = FILTER_TITLES[filter];
     const { filter: selectedFilter, onShow } = this.props;
 
     return (
@@ -49,14 +49,15 @@ class Footer extends React.Component<FooterProps> {
 
   renderClearButton() {
     const { completedCount, onClearCompleted } = this.props;
-    if (completedCount > 0) {
-      return (
-        <button className="clear-completed"
-                onClick={() => onClearCompleted()} >
-          Clear completed
-        </button>
-      );
-    }
+
+    return (
+      <button className="clear-completed"
+              onClick={() => onClearCompleted()}
+              disabled={completedCount <= 0} >
+        Clear completed
+      </button>
+    );
+
   }
 
   render() {

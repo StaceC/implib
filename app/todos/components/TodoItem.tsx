@@ -16,7 +16,7 @@ interface TodoItemState {
 };
 
 class TodoItem extends React.Component<TodoItemProps, TodoItemState> {
-  constructor(props, context) {
+  constructor(props: TodoItemProps, context: TodoItemState) {
     super(props, context);
     this.state = {
       editing: false
