@@ -20,28 +20,28 @@ export default handleActions<IState, Todo>({
   [ADD_TODO]: (state: IState, action: Action<Todo>): IState => {
     return [{
       id: state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
-      completed: action.payload.completed,
-      text: action.payload.text
+      completed: ((action && action.payload && action.payload.completed) || false),
+      text: ((action && action.payload && action.payload.text) || "")
     }, ...state];
   },
 
   [DELETE_TODO]: (state: IState, action: Action<Todo>): IState => {
     return state.filter(todo =>
-      todo.id !== action.payload.id
+      todo.id !== ((action && action.payload && action.payload.id) || 0)
     );
   },
 
   [EDIT_TODO]: (state: IState, action: Action<Todo>): IState => {
     return <IState>state.map(todo =>
-      todo.id === action.payload.id
-        ? { ...todo, text: action.payload.text }
+      todo.id === ((action && action.payload && action.payload.id) || 0)
+        ? { ...todo, text: ((action && action.payload && action.payload.text) || "") }
         : todo
     );
   },
 
   [COMPLETE_TODO]: (state: IState, action: Action<Todo>): IState => {
     return <IState>state.map(todo =>
-      todo.id === action.payload.id ?
+      todo.id === ((action && action.payload && action.payload.id) || 0) ?
         { ...todo, completed: !todo.completed } :
         todo
     );

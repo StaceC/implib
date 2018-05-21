@@ -13,7 +13,7 @@ import {
 
 const addTodo = createAction<Todo, string>(
   ADD_TODO,
-  (text: string) => ({ text, completed: false })
+  (text: string) => ({ id: -1, text, completed: false })
 );
 
 const deleteTodo = createAction<Todo, Todo>(
