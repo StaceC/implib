@@ -2,7 +2,7 @@ import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect, Dispatch } from 'react-redux';
 import { Importer, IProps } from '../components/Importer';
-import * as ImporterActions from '../todos/actions';
+import * as ImporterActions from '../components/todos/actions';
 import { IState } from '../reducers';
 
 function mapStateToProps(state: IState): Partial<IProps> {

@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import TodoTextInput from './TodoTextInput';
+import Dropzone from 'react-dropzone'
 
 export interface HeaderProps {
   addTodo: (text:string)=> any;
@@ -13,6 +14,12 @@ class Header extends React.Component<HeaderProps> {
     }
   }
 
+  onDrop(tracks: any[]) {
+    tracks.forEach( track => {
+      this.handleSave(track.name);
+    })
+  }
+
   render() {
     return (
       <header className="header">
@@ -21,6 +28,13 @@ class Header extends React.Component<HeaderProps> {
             newTodo
             onSave={this.handleSave.bind(this)}
             placeholder="What needs to be done?" />
+
+          <div className="dropzone">
+            <Dropzone onDrop={this.onDrop.bind(this)}>
+              <p>Try dropping some files here, or click to select files to upload.</p>
+            </Dropzone>
+          </div>
+
       </header>
     );
   }

@@ -4,9 +4,9 @@ import { RouteComponentProps } from 'react-router';
 import {
   Header,
   MainSection
-} from '../todos';
+} from './todos';
 
-import { Todo } from '../todos/model'
+import { Todo } from './todos/model'
 
 export interface IProps extends RouteComponentProps<any> {
   todos: Todo[];

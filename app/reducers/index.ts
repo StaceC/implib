@@ -1,8 +1,8 @@
 import { combineReducers, Reducer } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 import counter, { TState as TCounterState } from './counter';
-import todos from '../todos';
-import { Todo } from '../todos/model';
+import todos from '../components/todos';
+import { Todo } from '../components/todos/model';
 
 const rootReducer = combineReducers({
   todos,
