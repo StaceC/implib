@@ -2,22 +2,22 @@
   "development": {
     "username": "root",
     "password": null,
-    "database": "implib_development",
-    "host": "127.0.0.1",
-    "dialect": "sqlite"
+    "database": "implib_dev",
+    "dialect": "sqlite",
+    "storage": "./app/db/implib.dev2.sqlite"
   },
   "test": {
     "username": "root",
     "password": null,
     "database": "implib_test",
-    "host": "127.0.0.1",
-    "dialect": "sqlite"
+    "dialect": "sqlite",
+    "storage": "./app/db/implib.test.sqlite"
   },
   "production": {
     "username": "root",
     "password": null,
-    "database": "implib_production",
-    "host": "127.0.0.1",
-    "dialect": "sqlite"
+    "database": "implib_prod",
+    "dialect": "sqlite",
+    "storage": "./app/db/implib.prod.sqlite"
   }
 }
