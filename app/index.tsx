@@ -7,25 +7,30 @@ import './app.global.scss';
 const { configureStore, history } = require('./store/configureStore');
 const store = configureStore();
 
-import {Sequelize} from 'sequelize-typescript';
 
-const sequelize =  new Sequelize({
-        database: 'some_db',
-        dialect: 'sqlite',
-        username: 'root',
-        password: '',
-        storage: ':memory:',
-        modelPaths: [__dirname + '/db/models']
+const Sequelize = require('sequelize');
+    const sequelize = new Sequelize('database', 'username', 'password', {
+    host: 'localhost',
+    dialect: 'sqlite',
+    operatorsAliases: false,
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    },
+    storage: './database.sqlite'
 });
 
+// Test connection
 sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch((err: any) => {
-    console.error('Unable to connect to the database:', err);
-  });
+    .authenticate()
+    .then(() => {
+        console.log('Connection has been established successfully.');
+    })
+    .catch((err: any) => {
+        console.error('Unable to connect to the database:', err);
+    });
 
 render(
   <AppContainer>
