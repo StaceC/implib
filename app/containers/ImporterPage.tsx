@@ -4,12 +4,18 @@ import { connect, Dispatch } from 'react-redux';
 import { Importer, IProps } from '../components/Importer';
 import * as ImporterActions from '../components/todos/actions';
 import { IState } from '../reducers';
+//import { IState as TodoState } from '../components/todos/model';
+
 
 function mapStateToProps(state: IState): Partial<IProps> {
+
   return {
-    todos: state.todos
+    todos: state.todosState.todos,
+    isFetching: state.todosState.isFetching
   };
+
 }
+
 
 
 function mapDispatchToProps(dispatch: Dispatch<IState>): Partial<IProps> {

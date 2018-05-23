@@ -17,6 +17,7 @@ const TODO_FILTERS = {
 
 export interface MainSectionProps {
   todos: Todo[];
+  isFetching: boolean;
   clearCompleted: ()=>void;
   completeAll: ()=>void;
   editTodo: (todo:Todo, text:string)=>void;
