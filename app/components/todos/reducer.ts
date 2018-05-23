@@ -1,4 +1,6 @@
 import { handleActions, Action } from 'redux-actions';
+import * as Sequelize from "sequelize";
+
 
 import { Todo, IState } from './model';
 import {
@@ -13,13 +15,14 @@ import {
 const initialState: IState = [<Todo>{
   text: 'Use Redux with TypeScript',
   completed: false,
-  id: 0
+  id: Sequelize.UUIDV4.toString()
 }];
 
 export default handleActions<IState, Todo>({
   [ADD_TODO]: (state: IState, action: Action<Todo>): IState => {
+    const newId = Sequelize.UUIDV4;
     return [{
-      id: state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
+      id: newId.toString(),
       completed: ((action && action.payload && action.payload.completed) || false),
       text: ((action && action.payload && action.payload.text) || "")
     }, ...state];

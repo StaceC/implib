@@ -56,7 +56,7 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
       );
     } else {
       return (
-        <text>Error - No Todos</text>
+        <div>Error - No Todos</div>
       );
     }
   }
