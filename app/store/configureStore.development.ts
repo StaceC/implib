@@ -6,6 +6,8 @@ import { createLogger } from 'redux-logger';
 import rootReducer from '../reducers';
 
 import * as counterActions from '../actions/counter';
+import * as todosActions from '../components/todos/actions';
+
 
 declare const window: Window & {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?(a: any): void;
@@ -17,8 +19,9 @@ declare const module: NodeModule & {
   }
 };
 
-const actionCreators = Object.assign({}, 
+const actionCreators = Object.assign({},
   counterActions,
+  todosActions,
   {push}
 );
 
