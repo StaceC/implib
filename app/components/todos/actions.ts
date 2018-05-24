@@ -61,13 +61,14 @@ const getTodosFailure = createAction<void>(
 export function getTodos() {
   return (dispatch: Function) => {
     dispatch({ type: GET_TODOS_REQUEST });
-    return db.Todo.findAll()
+    return db.Todo.findAll({ raw: true })
       .then((todos) => dispatch(
         getTodosSuccess({todos: todos as Todo[]})
       ))
       .catch((error: any) => dispatch( { type: GET_TODOS_FAILURE, payload: null}))
   }
 }
+
 
 export {
   addTodo,

@@ -99,6 +99,7 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
     return (
       <section className="main">
         {this.renderToggleAll(completedCount)}
+        <div>COUNT: {todos.length}</div>
         <ul className="todo-list">
           {filteredTodos.map(todo =>
             <TodoItem
