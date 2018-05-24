@@ -4,7 +4,6 @@ import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
 import './app.global.scss';
 
-import { getTodos } from './components/todos/actions';
 const { configureStore, history } = require('./store/configureStore');
 const store = configureStore();
 
@@ -31,7 +30,7 @@ db.Todo.sync({force: false}).then(() => {
     completed: false
   });
   */
-  //store.dispatch(getTodos); // Not working as I don't think actions have been bound
+  
 });
 
 /*
