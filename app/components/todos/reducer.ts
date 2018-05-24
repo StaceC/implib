@@ -1,8 +1,8 @@
-import { handleActions, Action } from 'redux-actions';
+import { handleActions, handleAction, Action } from 'redux-actions';
 const uuidv4 = require('uuid/v4');
 
 
-import { Todo, IState } from './model';
+import { Todo, Todos, IState } from './model';
 import {
   ADD_TODO,
   DELETE_TODO,
@@ -24,7 +24,7 @@ const initialState: IState = {
   isFetching: true
 };
 
-export default handleActions<IState, Todo>({
+export default handleActions<IState, Todo | Todos>({
   [ADD_TODO]: (state: IState, action: Action<Todo>): IState => {
     const newId = uuidv4();
     const todos = state.todos;
@@ -69,15 +69,24 @@ export default handleActions<IState, Todo>({
     return {...state, todos: state.todos.filter(todo => todo.completed === false)};
   },
 
-  [GET_TODOS_REQUEST]: (state: IState, action: Action<Todo>): IState => {
-    return {...state, isFetching: true};
-  },
+  [GET_TODOS_REQUEST]: (state: IState, action: Action<Todo>): IState =>
+    ({...state, isFetching: true}),
 
-  [GET_TODOS_SUCCESS]: (state: IState, action: Action<Todo>): IState => {
-    return {...state, isFetching: false};
+
+  [GET_TODOS_SUCCESS]: (state: IState, action: Action<Todos>): IState => {
+    return {todos: (action && action.payload && action.payload.todos) || [], isFetching: false};
   },
 
   [GET_TODOS_FAILURE]: (state: IState, action: Action<Todo>): IState => {
     return {...state, isFetching: true};
   },
 }, initialState);
+
+
+// TODO: Breakout the todos: Todo[] from the more specific Todo above.
+// i.e. Remove the optional type `| IState` in the handleActions method above.
+export const todosFetcher = handleAction<IState, IState>(
+  GET_TODOS_SUCCESS, (state: IState, action: Action<IState>): IState => {
+    return state;
+  }, initialState
+)

@@ -22,7 +22,7 @@ db.sequelize
         console.error('Unable to connect to the database:', err);
     });
 
-db.Todo.sync({force: true}).then(() => {
+db.Todo.sync({force: false}).then(() => {
   // Table created
   return db.Todo.create({
     text: 'Something',

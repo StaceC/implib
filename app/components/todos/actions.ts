@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions';
 
-import { Todo } from './model';
+import { Todo, Todos } from './model';
 
 import db from "../../db/models";
 
@@ -48,9 +48,9 @@ const clearCompleted = createAction<void>(
   () => { }
 );
 
-const getTodosSuccess = createAction<Todo[], Todo[]>(
+const getTodosSuccess = createAction<Todos, Todos>(
   GET_TODOS_SUCCESS,
-  (todos: Todo[]) => todos
+  (todos: Todos) => todos
 );
 
 const getTodosFailure = createAction<void>(
@@ -62,11 +62,17 @@ export function getTodos() {
   return (dispatch: Function) => {
     dispatch({ type: GET_TODOS_REQUEST });
     return db.Todo.findAll()
-      .then((todos) => dispatch( getTodosSuccess([{
-        text: 'Loaded from DB...coming soon...',
-        completed: false,
-        id: uuidv4()
-      }]) ))
+      .then((todos) => dispatch(
+        getTodosSuccess(
+          ({todos:
+          [<Todo>{
+            text: 'Loaded from DB...coming soon...',
+            completed: false,
+            id: uuidv4()
+          }]})
+
+        )
+      ))
       .catch((error: any) => dispatch( { type: GET_TODOS_FAILURE, payload: null}))
   }
 }
