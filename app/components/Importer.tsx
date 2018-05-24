@@ -20,7 +20,16 @@ export interface IProps extends RouteComponentProps<any> {
 };
 
 export class Importer extends React.Component<IProps> {
-  render() {
+
+  renderLoading() {
+    return (
+      <div className="todoapp">
+        Loading...
+      </div>
+    );
+  }
+
+  renderMain() {
     const { todos, isFetching, addTodo, clearCompleted, completeAll, editTodo, completeTodo, deleteTodo } = this.props;
 
     return (
@@ -36,6 +45,14 @@ export class Importer extends React.Component<IProps> {
             completeAll={() => completeAll()}/>
       </div>
     );
+  }
+
+  render() {
+    if(this.props.isFetching) {
+      return this.renderLoading();
+    } else {
+      return this.renderMain();      
+    }
   }
 }
 

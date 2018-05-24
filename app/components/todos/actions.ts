@@ -4,6 +4,8 @@ import { Todo } from './model';
 
 import db from "../../db/models";
 
+const uuidv4 = require('uuid/v4');
+
 import {
   ADD_TODO,
   DELETE_TODO,
@@ -46,11 +48,25 @@ const clearCompleted = createAction<void>(
   () => { }
 );
 
+const getTodosSuccess = createAction<Todo[], Todo[]>(
+  GET_TODOS_SUCCESS,
+  (todos: Todo[]) => todos
+);
+
+const getTodosFailure = createAction<void>(
+  GET_TODOS_FAILURE,
+  () => { }
+);
+
 export function getTodos() {
   return (dispatch: Function) => {
     dispatch({ type: GET_TODOS_REQUEST });
     return db.Todo.findAll()
-      .then((todos) => dispatch( { type: GET_TODOS_SUCCESS, payload: todos} ))
+      .then((todos) => dispatch( getTodosSuccess([{
+        text: 'Loaded from DB...coming soon...',
+        completed: false,
+        id: uuidv4()
+      }]) ))
       .catch((error: any) => dispatch( { type: GET_TODOS_FAILURE, payload: null}))
   }
 }
@@ -61,5 +77,7 @@ export {
   editTodo,
   completeTodo,
   completeAll,
-  clearCompleted
+  clearCompleted,
+  getTodosSuccess,
+  getTodosFailure
 }

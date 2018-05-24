@@ -86,7 +86,7 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
     }
   }
 
-  render() {
+  renderMain() {
     const { todos, completeTodo, deleteTodo, editTodo } = this.props;
     const { filter } = this.state;
 
@@ -112,6 +112,24 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
         {this.renderFooter(completedCount)}
       </section>
     );
+  }
+
+  renderLoading() {
+    return (
+      <section className="main">
+        Loading...
+      </section>
+    );
+  }
+
+
+  render() {
+    const { isFetching } = this.props;
+    if(isFetching) {
+      return this.renderLoading();
+    } else {
+      return this.renderMain();
+    }
   }
 }
 

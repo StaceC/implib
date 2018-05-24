@@ -9,7 +9,10 @@ import {
   EDIT_TODO,
   COMPLETE_TODO,
   COMPLETE_ALL,
-  CLEAR_COMPLETED
+  CLEAR_COMPLETED,
+  GET_TODOS_REQUEST,
+  GET_TODOS_SUCCESS,
+  GET_TODOS_FAILURE
 } from './constants/ActionTypes';
 
 const initialState: IState = {
@@ -18,7 +21,7 @@ const initialState: IState = {
     completed: false,
     id: uuidv4()
   }],
-  isFetching: false
+  isFetching: true
 };
 
 export default handleActions<IState, Todo>({
@@ -64,5 +67,17 @@ export default handleActions<IState, Todo>({
 
   [CLEAR_COMPLETED]: (state: IState, action: Action<Todo>): IState => {
     return {...state, todos: state.todos.filter(todo => todo.completed === false)};
-  }
+  },
+
+  [GET_TODOS_REQUEST]: (state: IState, action: Action<Todo>): IState => {
+    return {...state, isFetching: true};
+  },
+
+  [GET_TODOS_SUCCESS]: (state: IState, action: Action<Todo>): IState => {
+    return {...state, isFetching: false};
+  },
+
+  [GET_TODOS_FAILURE]: (state: IState, action: Action<Todo>): IState => {
+    return {...state, isFetching: true};
+  },
 }, initialState);
