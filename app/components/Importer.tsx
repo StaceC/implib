@@ -17,6 +17,7 @@ export interface IProps extends RouteComponentProps<any> {
   editTodo: (todo:Todo, text:string)=>void;
   completeTodo: (todo:Todo)=>void;
   deleteTodo: (todo:Todo)=>void;
+  getTodos: ()=>void;
 };
 
 export class Importer extends React.Component<IProps> {
@@ -51,8 +52,12 @@ export class Importer extends React.Component<IProps> {
     if(this.props.isFetching) {
       return this.renderLoading();
     } else {
-      return this.renderMain();      
+      return this.renderMain();
     }
+  }
+
+  componentDidMount() {
+    this.props.getTodos();
   }
 }
 

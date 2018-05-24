@@ -4,7 +4,7 @@ import { Todo, Todos } from './model';
 
 import db from "../../db/models";
 
-const uuidv4 = require('uuid/v4');
+//const uuidv4 = require('uuid/v4');
 
 import {
   ADD_TODO,
@@ -63,15 +63,7 @@ export function getTodos() {
     dispatch({ type: GET_TODOS_REQUEST });
     return db.Todo.findAll()
       .then((todos) => dispatch(
-        getTodosSuccess(
-          ({todos:
-          [<Todo>{
-            text: 'Loaded from DB...coming soon...',
-            completed: false,
-            id: uuidv4()
-          }]})
-
-        )
+        getTodosSuccess({todos: todos as Todo[]})
       ))
       .catch((error: any) => dispatch( { type: GET_TODOS_FAILURE, payload: null}))
   }
