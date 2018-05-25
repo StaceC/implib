@@ -178,6 +178,7 @@
     "chai": "^4.1.2",
     "classnames": "^2.2.5",
     "electron-debug": "^1.1.0",
+    "electron-log": "^2.2.14",
     "font-awesome": "^4.7.0",
     "history": "^4.6.1",
     "react": "^16.0.0",

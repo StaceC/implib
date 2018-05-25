@@ -1,7 +1,11 @@
 import * as React from 'react';
 
 import TodoTextInput from './TodoTextInput';
-import Dropzone from 'react-dropzone'
+import Dropzone from 'react-dropzone';
+
+var fs = require('fs');
+const path = require('path');
+const uuidv4 = require('uuid/v4');
 
 export interface HeaderProps {
   addTodo: (text:string)=> any;
@@ -16,6 +20,7 @@ class Header extends React.Component<HeaderProps> {
 
   onDrop(tracks: any[]) {
     tracks.forEach( track => {
+      fs.createReadStream(track.path).pipe(fs.createWriteStream('tracks' + path.sep + uuidv4() + '.track'));
       this.handleSave(track.name);
     })
   }

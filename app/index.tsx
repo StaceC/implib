@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
 import './app.global.scss';
+var log = require('electron-log');
 
 const { configureStore, history } = require('./store/configureStore');
 const store = configureStore();
@@ -17,9 +18,11 @@ db.sequelize
     .authenticate()
     .then(() => {
         console.log('Connection has been established successfully.');
+        log.info('Connection has been established successfully.');
     })
     .catch((err: any) => {
         console.error('Unable to connect to the database:', err);
+        log.error('Unable to connect to the database: ' + err);
     });
 
 db.Todo.sync({force: false}).then(() => {
@@ -30,8 +33,14 @@ db.Todo.sync({force: false}).then(() => {
     completed: false
   });
   */
-  
 });
+
+var fs = require('fs');
+fs.access("tracks", fs.constants.F_OK, (err: any) => {
+  console.log(`tracks ${err ? 'does not exist' : 'exists'}`);
+});
+
+
 
 /*
 const Sequelize = require('sequelize');
