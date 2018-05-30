@@ -6,6 +6,4 @@ export type Todo = {
 
 export type IState = { todos: Todo[], isFetching: boolean };
 
-export type Todos = {
-  todos: Todo[]
-}
+export type Todos = Todo[];

@@ -6,7 +6,7 @@ import {
   MainSection
 } from './todos';
 
-import { Todo } from './todos/model'
+import { Todo, Todos } from './todos/model'
 
 export interface IProps extends RouteComponentProps<any> {
   todos: Todo[];
@@ -18,6 +18,7 @@ export interface IProps extends RouteComponentProps<any> {
   completeTodo: (todo:Todo)=>void;
   deleteTodo: (todo:Todo)=>void;
   getTodos: ()=>void;
+  importTracks: (todos: Todos)=>void;
 };
 
 export class Importer extends React.Component<IProps> {
@@ -31,7 +32,7 @@ export class Importer extends React.Component<IProps> {
   }
 
   renderMain() {
-    const { todos, isFetching, addTodo, clearCompleted, completeAll, editTodo, completeTodo, deleteTodo } = this.props;
+    const { todos, isFetching, addTodo, clearCompleted, completeAll, editTodo, completeTodo, deleteTodo, importTracks } = this.props;
 
     return (
       <div className="todoapp">
@@ -43,7 +44,8 @@ export class Importer extends React.Component<IProps> {
             deleteTodo={(t: Todo) => deleteTodo(t)}
             completeTodo={(t: Todo) => completeTodo(t)}
             clearCompleted={() => clearCompleted()}
-            completeAll={() => completeAll()}/>
+            completeAll={() => completeAll()}
+            importTracks={(ts: Todos) => importTracks(ts)}/>
       </div>
     );
   }

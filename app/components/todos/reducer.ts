@@ -12,7 +12,10 @@ import {
   CLEAR_COMPLETED,
   GET_TODOS_REQUEST,
   GET_TODOS_SUCCESS,
-  GET_TODOS_FAILURE
+  GET_TODOS_FAILURE,
+  IMPORT_TRACKS_REQUEST,
+  IMPORT_TRACKS_SUCCESS,
+  IMPORT_TRACKS_FAILURE
 } from './constants/ActionTypes';
 
 const initialState: IState = {
@@ -69,17 +72,27 @@ export default handleActions<IState, Todo | Todos>({
     return {...state, todos: state.todos.filter(todo => todo.completed === false)};
   },
 
+  // GETTING TRACKS
   [GET_TODOS_REQUEST]: (state: IState, action: Action<Todo>): IState =>
     ({...state, isFetching: true}),
-
-
   [GET_TODOS_SUCCESS]: (state: IState, action: Action<Todos>): IState => {
-    return {todos: (action && action.payload && action.payload.todos) || [], isFetching: false};
+    return {todos: (action && action.payload && action.payload) || [], isFetching: false};
   },
-
   [GET_TODOS_FAILURE]: (state: IState, action: Action<Todo>): IState => {
     return {...state, isFetching: true};
   },
+  
+  // IMPORTING TRACKS
+  [IMPORT_TRACKS_REQUEST]: (state: IState, action: Action<Todo>): IState => {
+    return state;
+  },
+  [IMPORT_TRACKS_SUCCESS]: (state: IState, action: Action<Todo>): IState => {
+    return state;
+  },
+  [IMPORT_TRACKS_FAILURE]: (state: IState, action: Action<Todo>): IState => {
+    return state;
+  },
+
 }, initialState);
 
 

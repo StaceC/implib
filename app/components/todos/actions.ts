@@ -79,14 +79,11 @@ const importTracksFailure = createAction<void, Todo>(
         }
 );
 
-export function importTodos(todos: Todos) {
+export function importTracks(todos: Todos) {
   return (dispatch: Function) => {
     dispatch({ type: IMPORT_TRACKS_REQUEST });
-    return db.Todo.findAll({ raw: true })
-      .then((todos) => dispatch(
-        getTodosSuccess({todos: todos as Todo[]})
-      ))
-      .catch((error: any) => dispatch( { type: GET_TODOS_FAILURE, payload: null}))
+    console.log("Importing Tracks ["+ todos + "]");
+    dispatch(importTracksSuccess(todos));
   }
 }
 
@@ -96,7 +93,7 @@ export function getTodos() {
     dispatch({ type: GET_TODOS_REQUEST });
     return db.Todo.findAll({ raw: true })
       .then((todos) => dispatch(
-        getTodosSuccess({todos: todos as Todo[]})
+        getTodosSuccess(todos as Todo[])
       ))
       .catch((error: any) => dispatch( { type: GET_TODOS_FAILURE, payload: null}))
   }

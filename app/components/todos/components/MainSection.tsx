@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Todo } from '../model';
+import { Todo, Todos } from '../model';
 import TodoItem from './TodoItem';
 import Footer from './Footer';
 import {
@@ -23,6 +23,7 @@ export interface MainSectionProps {
   editTodo: (todo:Todo, text:string)=>void;
   completeTodo: (todo:Todo)=>void;
   deleteTodo: (todo:Todo)=>void;
+  importTracks: (todos: Todos)=>void;
 };
 
 export interface MainSectionState {
@@ -44,6 +45,7 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
 
   handleImportTracks() {
     this.props.todos.forEach( (track) => console.log(track));
+    this.props.importTracks(this.props.todos);
   }
 
   handleShow(filter: string) {
