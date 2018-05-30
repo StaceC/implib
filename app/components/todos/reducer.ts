@@ -81,8 +81,19 @@ export default handleActions<IState, Todo | Todos>({
   [GET_TODOS_FAILURE]: (state: IState, action: Action<Todo>): IState => {
     return {...state, isFetching: true};
   },
-  
+
   // IMPORTING TRACKS
+  [IMPORT_TRACKS_REQUEST]: (state: IState, action: Action<Todos>): IState => {
+    return state;
+  },
+  [IMPORT_TRACKS_SUCCESS]: (state: IState, action: Action<Todos>): IState => {
+    return state;
+  },
+  [IMPORT_TRACKS_FAILURE]: (state: IState, action: Action<Todos>): IState => {
+    return state;
+  },
+
+  // IMPORTING SINGLE TRACK
   [IMPORT_TRACKS_REQUEST]: (state: IState, action: Action<Todo>): IState => {
     return state;
   },

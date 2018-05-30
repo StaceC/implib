@@ -18,7 +18,10 @@ import {
   GET_TODOS_FAILURE,
   IMPORT_TRACKS_REQUEST,
   IMPORT_TRACKS_SUCCESS,
-  IMPORT_TRACKS_FAILURE
+  IMPORT_TRACKS_FAILURE,
+  IMPORT_TRACK_REQUEST,
+  IMPORT_TRACK_SUCCESS,
+  IMPORT_TRACK_FAILURE
 } from './constants/ActionTypes';
 
 const addTodo = createAction<Todo, string>(
@@ -51,43 +54,8 @@ const clearCompleted = createAction<void>(
   () => { }
 );
 
-const getTodosSuccess = createAction<Todos, Todos>(
-  GET_TODOS_SUCCESS,
-  (todos: Todos) => todos
-);
 
-const getTodosFailure = createAction<void, Todo>(
-  GET_TODOS_FAILURE,
-  () => <Todo>{
-          text: 'Use Redux with TypeScript',
-          completed: false,
-          id: "123"
-        }
-);
-
-const importTracksSuccess = createAction<Todos, Todos>(
-  IMPORT_TRACKS_SUCCESS,
-  (todos: Todos) => todos
-);
-
-const importTracksFailure = createAction<void, Todo>(
-  IMPORT_TRACKS_FAILURE,
-  () => <Todo>{
-          text: 'Failed to import tracks',
-          completed: false,
-          id: "123"
-        }
-);
-
-export function importTracks(todos: Todos) {
-  return (dispatch: Function) => {
-    dispatch({ type: IMPORT_TRACKS_REQUEST });
-    console.log("Importing Tracks ["+ todos + "]");
-    dispatch(importTracksSuccess(todos));
-  }
-}
-
-
+// GET TRACKS - DROPZONE FILE GRABBER
 export function getTodos() {
   return (dispatch: Function) => {
     dispatch({ type: GET_TODOS_REQUEST });
@@ -98,6 +66,68 @@ export function getTodos() {
       .catch((error: any) => dispatch( { type: GET_TODOS_FAILURE, payload: null}))
   }
 }
+const getTodosSuccess = createAction<Todos, Todos>(
+  GET_TODOS_SUCCESS,
+  (todos: Todos) => todos
+);
+const getTodosFailure = createAction<void, Todo>(
+  GET_TODOS_FAILURE,
+  () => <Todo>{
+          text: 'Use Redux with TypeScript',
+          completed: false,
+          id: "123"
+        }
+);
+
+
+// IMPORT A LIST OF TRACKS -> CALLS IMPORT TRACK
+export function importTracks(todos: Todos) {
+  return (dispatch: Function) => {
+    dispatch({ type: IMPORT_TRACKS_REQUEST });
+
+    const dispatchedTodos = todos.map( track => { return dispatch(importTrack(track)) } );
+
+    return Promise.all(dispatchedTodos)
+    .then(() => {
+      return dispatch(importTracksSuccess(todos));
+    });
+
+  }
+}
+const importTracksSuccess = createAction<Todos, Todos>(
+  IMPORT_TRACKS_SUCCESS,
+  (todos: Todos) => todos
+);
+const importTracksFailure = createAction<void, Todo>(
+  IMPORT_TRACKS_FAILURE,
+  () => <Todo>{
+          text: 'Failed to import tracks',
+          completed: false,
+          id: "123"
+        }
+);
+
+
+// IMPORTING INDIVIDUAL TRACKS
+export function importTrack(todo: Todo) {
+  return (dispatch: Function) => {
+    dispatch({ type: IMPORT_TRACK_REQUEST });
+    console.log("Importing Track ["+ todo + "]");
+    dispatch(importTrackSuccess(todo));
+  }
+}
+const importTrackSuccess = createAction<Todo, Todo>(
+  IMPORT_TRACK_SUCCESS,
+  (todo: Todo) => todo
+);
+const importTrackFailure = createAction<void, Todo>(
+  IMPORT_TRACK_FAILURE,
+  () => <Todo>{
+          text: 'Failed to import tracks',
+          completed: false,
+          id: "123"
+        }
+);
 
 
 export {
@@ -110,5 +140,7 @@ export {
   getTodosSuccess,
   getTodosFailure,
   importTracksSuccess,
-  importTracksFailure
+  importTracksFailure,
+  importTrackSuccess,
+  importTrackFailure
 }
