@@ -24,6 +24,7 @@ export interface MainSectionProps {
   completeTodo: (todo:Todo)=>void;
   deleteTodo: (todo:Todo)=>void;
   importTracks: (todos: Todos)=>void;
+  importTrack: (todo: Todo)=>void;
 };
 
 export interface MainSectionState {

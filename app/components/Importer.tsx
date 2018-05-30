@@ -19,6 +19,7 @@ export interface IProps extends RouteComponentProps<any> {
   deleteTodo: (todo:Todo)=>void;
   getTodos: ()=>void;
   importTracks: (todos: Todos)=>void;
+  importTrack: (todo: Todo)=>void;
 };
 
 export class Importer extends React.Component<IProps> {
@@ -32,7 +33,7 @@ export class Importer extends React.Component<IProps> {
   }
 
   renderMain() {
-    const { todos, isFetching, addTodo, clearCompleted, completeAll, editTodo, completeTodo, deleteTodo, importTracks } = this.props;
+    const { todos, isFetching, addTodo, clearCompleted, completeAll, editTodo, completeTodo, deleteTodo, importTracks, importTrack } = this.props;
 
     return (
       <div className="todoapp">
@@ -45,7 +46,8 @@ export class Importer extends React.Component<IProps> {
             completeTodo={(t: Todo) => completeTodo(t)}
             clearCompleted={() => clearCompleted()}
             completeAll={() => completeAll()}
-            importTracks={(ts: Todos) => importTracks(ts)}/>
+            importTracks={(ts: Todos) => importTracks(ts)}
+            importTrack={(t: Todo) => importTrack(t)}/>
       </div>
     );
   }

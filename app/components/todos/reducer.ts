@@ -15,7 +15,10 @@ import {
   GET_TODOS_FAILURE,
   IMPORT_TRACKS_REQUEST,
   IMPORT_TRACKS_SUCCESS,
-  IMPORT_TRACKS_FAILURE
+  IMPORT_TRACKS_FAILURE,
+  IMPORT_TRACK_REQUEST,
+  IMPORT_TRACK_SUCCESS,
+  IMPORT_TRACK_FAILURE
 } from './constants/ActionTypes';
 
 const initialState: IState = {
@@ -94,13 +97,18 @@ export default handleActions<IState, Todo | Todos>({
   },
 
   // IMPORTING SINGLE TRACK
-  [IMPORT_TRACKS_REQUEST]: (state: IState, action: Action<Todo>): IState => {
+  [IMPORT_TRACK_REQUEST]: (state: IState, action: Action<Todo>): IState => {
     return state;
   },
-  [IMPORT_TRACKS_SUCCESS]: (state: IState, action: Action<Todo>): IState => {
-    return state;
+  [IMPORT_TRACK_SUCCESS]: (state: IState, action: Action<Todo>): IState => {
+    console.log("Importing Track Winning!");
+    return <IState>{...state, todos: state.todos.map(todo =>
+      todo.id === ((action && action.payload && action.payload.id) || "") ?
+        { ...todo, completed: true } :
+        todo
+    )};
   },
-  [IMPORT_TRACKS_FAILURE]: (state: IState, action: Action<Todo>): IState => {
+  [IMPORT_TRACK_FAILURE]: (state: IState, action: Action<Todo>): IState => {
     return state;
   },
 
