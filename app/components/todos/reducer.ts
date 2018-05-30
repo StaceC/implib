@@ -22,11 +22,7 @@ import {
 } from './constants/ActionTypes';
 
 const initialState: IState = {
-  todos: [{
-    text: 'Use Redux with TypeScript',
-    completed: false,
-    id: uuidv4()
-  }],
+  todos: [],
   isFetching: true
 };
 
@@ -82,7 +78,7 @@ export default handleActions<IState, Todo | Todos>({
     return {todos: (action && action.payload && action.payload) || [], isFetching: false};
   },
   [GET_TODOS_FAILURE]: (state: IState, action: Action<Todo>): IState => {
-    return {...state, isFetching: true};
+    return {...state, isFetching: false};
   },
 
   // IMPORTING TRACKS

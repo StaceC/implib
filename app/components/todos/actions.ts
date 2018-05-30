@@ -72,12 +72,15 @@ const getTodosSuccess = createAction<Todos, Todos>(
 );
 const getTodosFailure = createAction<void, Todo>(
   GET_TODOS_FAILURE,
+  () => {}
+  /*
   () => <Todo>{
           text: 'Use Redux with TypeScript',
           completed: false,
           id: "123"
         }
-);
+      */
+  );
 
 
 // IMPORT A LIST OF TRACKS -> CALLS IMPORT TRACK
@@ -113,7 +116,13 @@ export function importTrack(todo: Todo) {
   return (dispatch: Function) => {
     dispatch({ type: IMPORT_TRACK_REQUEST });
     console.log("Importing Track ["+ todo + "]");
-    dispatch(importTrackSuccess(todo));
+    db.Todo.build( {id: todo.id, text: todo.text, completed: true} )
+    .save()
+    .then(savedTrack => dispatch(importTrackSuccess(savedTrack as Todo)))
+    .catch(error => {
+      console.log(error);
+      dispatch(importTrackFailure(todo));
+    })
   }
 }
 const importTrackSuccess = createAction<Todo, Todo>(
