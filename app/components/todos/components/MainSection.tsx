@@ -42,6 +42,10 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
     }
   }
 
+  handleImportTracks() {
+    this.props.todos.forEach( (track) => console.log(track));
+  }
+
   handleShow(filter: string) {
     this.setState({ filter });
   }
@@ -73,6 +77,7 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
                 activeCount={activeCount}
                 filter={filter}
                 onClearCompleted={this.handleClearCompleted.bind(this)}
+                onImportTracks={this.handleImportTracks.bind(this)}
                 onShow={this.handleShow.bind(this)} />
       );
     } else {
@@ -81,6 +86,7 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
               activeCount={0}
               filter={""}
               onClearCompleted={this.handleClearCompleted.bind(this)}
+              onImportTracks={this.handleImportTracks.bind(this)}
               onShow={this.handleShow.bind(this)} />
         );
     }

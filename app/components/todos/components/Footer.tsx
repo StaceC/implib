@@ -19,6 +19,7 @@ interface FooterProps {
   activeCount: number;
   filter: string;
   onClearCompleted: ()=>void;
+  onImportTracks: ()=>void;
   onShow: (filter:string)=>void;
 }
 
@@ -60,6 +61,20 @@ class Footer extends React.Component<FooterProps> {
 
   }
 
+  renderImportButton() {
+
+    const { completedCount, onImportTracks } = this.props;
+
+    return (
+      <button className="clear-completed"
+              onClick={() => onImportTracks()}
+              disabled={completedCount > 0} >
+        Import Tracks
+      </button>
+    );
+
+  }
+
   render() {
     return (
       <footer className="footer">
@@ -72,6 +87,7 @@ class Footer extends React.Component<FooterProps> {
           )}
         </ul>
         {this.renderClearButton()}
+        {this.renderImportButton()}
       </footer>
     );
   }
