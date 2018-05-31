@@ -3,16 +3,12 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
 import './app.global.scss';
+import db from './db/models';
+
 var log = require('electron-log');
 
 const { configureStore, history } = require('./store/configureStore');
 const store = configureStore();
-
-// const db = require('./db/models');
-//const { Todo } = require('./db/models');
-//import * as db from './db/models';
-
-import db from './db/models';
 
 // TODO: Move to separate module and instantiate DB propery.
 db.sequelize
@@ -26,7 +22,7 @@ db.sequelize
         log.error('Unable to connect to the database: ' + err);
     });
 // Change force to true to wipe DB currently
-db.Todo.sync({force: true}).then(() => {
+db.Todo.sync({force: false}).then(() => {
   // Table created
   /*
   return db.Todo.create({
