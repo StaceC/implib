@@ -13,7 +13,7 @@ const SAVE_DIR = config.settings.saveDir;
 
 
 //const uuidv4 = require('uuid/v4');
-var fs = require('fs');
+import fs = require('fs');
 const path = require('path');
 const uuidv4 = require('uuid/v4');
 
