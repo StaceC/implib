@@ -6,6 +6,9 @@ import db from "../../db/models";
 
 import * as yauzl from "yauzl";
 import { ZipFile, Entry} from "yauzl";
+import config from "../../config";
+const SAVE_DIR = config.settings.saveDir;
+
 
 //const uuidv4 = require('uuid/v4');
 var fs = require('fs');
@@ -169,7 +172,7 @@ export function importFiles(files: File[]) {
             console.log("Zip Directory: " + entry.fileName);
             const dirname = entry.fileName.replace(/\/$/, "");
             console.log("Dirname[" + dirname + "]");
-            fs.mkdir('tracks' + path.sep + dirname, function(e: any){
+            fs.mkdir(path.join(SAVE_DIR, dirname), function(e: any){
               if(!e || (e && e.code === 'EEXIST')){
                 console.log("Created directory [" + dirname + "]");
                 //do something with contents
@@ -190,7 +193,7 @@ export function importFiles(files: File[]) {
                 console.log("Zip FileName: " + entry.fileName);
                 //var filename = entry.fileName.replace(/^.*[\\\/]/, '')
                 //console.log("Filename: [" + filename + "]");
-                readStream.pipe(fs.createWriteStream('tracks' + path.sep + entry.fileName));
+                readStream.pipe(fs.createWriteStream(path.join(SAVE_DIR, entry.fileName)));
               }
             });
           }
