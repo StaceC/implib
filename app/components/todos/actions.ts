@@ -4,7 +4,13 @@ import { Todo, Todos } from './model';
 
 import db from "../../db/models";
 
+import * as yauzl from "yauzl";
+import { ZipFile, Entry} from "yauzl";
+
 //const uuidv4 = require('uuid/v4');
+var fs = require('fs');
+const path = require('path');
+const uuidv4 = require('uuid/v4');
 
 import {
   ADD_TODO,
@@ -21,7 +27,10 @@ import {
   IMPORT_TRACKS_FAILURE,
   IMPORT_TRACK_REQUEST,
   IMPORT_TRACK_SUCCESS,
-  IMPORT_TRACK_FAILURE
+  IMPORT_TRACK_FAILURE,
+  IMPORT_FILES,
+  IMPORT_FILES_SUCCESS,
+  IMPORT_FILES_FAILURE
 } from './constants/ActionTypes';
 
 const addTodo = createAction<Todo, string>(
@@ -139,6 +148,74 @@ const importTrackFailure = createAction<void, Todo>(
 );
 
 
+// IMPORTING INDIVIDUAL TRACKS
+export function importFiles(files: File[]) {
+  return (dispatch: Function) => {
+    dispatch({ type: IMPORT_FILES });
+    files.forEach(file => {
+      fs.createReadStream((file as any).path).pipe(fs.createWriteStream('tracks' + path.sep + uuidv4() + '.zip'));
+
+      // Create a Zip directory
+
+      // Unzip File
+      yauzl.open((file as any).path, {autoClose: true, lazyEntries: true}, function(err:any, zipfile: ZipFile) {
+        if (err) throw err;
+        zipfile.readEntry();
+        zipfile.on("entry", function(entry: Entry) {
+          if (/\/$/.test(entry.fileName)) {
+            // Directory file names end with '/'.
+            // Note that entires for directories themselves are optional.
+            // An entry's fileName implicitly requires its parent directories to exist.
+            console.log("Zip Directory: " + entry.fileName);
+            const dirname = entry.fileName.replace(/\/$/, "");
+            console.log("Dirname[" + dirname + "]");
+            fs.mkdir('tracks' + path.sep + dirname, function(e: any){
+              if(!e || (e && e.code === 'EEXIST')){
+                console.log("Created directory [" + dirname + "]");
+                //do something with contents
+              } else {
+                //debug
+                console.log("Unable to create directory [" + dirname + "]" + e);
+              }
+            });
+
+          } else {
+            // file entry
+            zipfile.openReadStream(entry, function(err, readStream) {
+              if (err) throw err;
+              if(readStream) {
+                readStream.on("end", function() {
+                  zipfile.readEntry();
+                });
+                console.log("Zip FileName: " + entry.fileName);
+                //var filename = entry.fileName.replace(/^.*[\\\/]/, '')
+                //console.log("Filename: [" + filename + "]");
+                readStream.pipe(fs.createWriteStream('tracks' + path.sep + entry.fileName));
+              }
+            });
+          }
+          // Check if the zip file is still open and read the next entry
+          if(zipfile.isOpen) {
+            zipfile.readEntry();
+          }
+        });
+      });
+    });
+  }
+}
+const importFilesSuccess = createAction<Todo, Todo>(
+  IMPORT_FILES_SUCCESS,
+  (todo: Todo) => todo
+);
+const importFilesFailure = createAction<void, Todo>(
+  IMPORT_FILES_FAILURE,
+  () => <Todo>{
+          text: 'Failed to import tracks',
+          completed: false,
+          id: "123"
+        }
+);
+
 export {
   addTodo,
   deleteTodo,
@@ -151,5 +228,7 @@ export {
   importTracksSuccess,
   importTracksFailure,
   importTrackSuccess,
-  importTrackFailure
+  importTrackFailure,
+  importFilesSuccess,
+  importFilesFailure
 }

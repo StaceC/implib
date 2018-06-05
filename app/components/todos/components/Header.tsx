@@ -1,14 +1,15 @@
 import * as React from 'react';
 
 import TodoTextInput from './TodoTextInput';
-import Dropzone, { ImageFile } from 'react-dropzone';
+import Dropzone from 'react-dropzone';
 
-var fs = require('fs');
-const path = require('path');
-const uuidv4 = require('uuid/v4');
+//var fs = require('fs');
+//const path = require('path');
+//const uuidv4 = require('uuid/v4');
 
 export interface HeaderProps {
   addTodo: (text:string)=> any;
+  importFiles: (files: File[]) => any;
 };
 
 class Header extends React.Component<HeaderProps> {
@@ -18,10 +19,11 @@ class Header extends React.Component<HeaderProps> {
     }
   }
 
-  onDrop(tracks: ImageFile[]) {
+  onDrop(tracks: File[]) {
     tracks.forEach( track => {
-      fs.createReadStream((track as any).path).pipe(fs.createWriteStream('tracks' + path.sep + uuidv4() + '.zip'));
-      this.handleSave(track.name);
+      //fs.createReadStream((track as any).path).pipe(fs.createWriteStream('tracks' + path.sep + uuidv4() + '.zip'));
+      this.props.importFiles(tracks);
+      //this.handleSave(track.name);
     })
   }
 

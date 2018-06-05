@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 
@@ -20,6 +21,7 @@ export interface IProps extends RouteComponentProps<any> {
   getTodos: ()=>void;
   importTracks: (todos: Todos)=>void;
   importTrack: (todo: Todo)=>void;
+  importFiles: (files: File[])=>void;
 };
 
 export class Importer extends React.Component<IProps> {
@@ -33,11 +35,23 @@ export class Importer extends React.Component<IProps> {
   }
 
   renderMain() {
-    const { todos, isFetching, addTodo, clearCompleted, completeAll, editTodo, completeTodo, deleteTodo, importTracks, importTrack } = this.props;
+    const { todos,
+            isFetching,
+            addTodo,
+            clearCompleted,
+            completeAll,
+            editTodo,
+            completeTodo,
+            deleteTodo,
+            importTracks,
+            importTrack,
+            importFiles } = this.props;
 
     return (
       <div className="todoapp">
-        <Header addTodo={(text: string) => addTodo(text)} />
+        <Header
+          addTodo={(text: string) => addTodo(text)}
+          importFiles={(files: File[]) => importFiles(files)} />
         <MainSection
             todos={todos}
             isFetching={isFetching}
