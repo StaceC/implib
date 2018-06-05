@@ -20,11 +20,7 @@ class Header extends React.Component<HeaderProps> {
   }
 
   onDrop(tracks: File[]) {
-    tracks.forEach( track => {
-      //fs.createReadStream((track as any).path).pipe(fs.createWriteStream('tracks' + path.sep + uuidv4() + '.zip'));
-      this.props.importFiles(tracks);
-      //this.handleSave(track.name);
-    })
+    this.props.importFiles(tracks);      
   }
 
   render() {
