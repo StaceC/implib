@@ -1,6 +1,7 @@
 import * as Sequelize from "sequelize";
 import todoFactory from "./todo";
 import trackFactory from "./track";
+import stemFactory from "./stem";
 
 const env = process.env.NODE_ENV || "development";
 const config = require(`${__dirname}/../config/config.json`)[env];
@@ -11,6 +12,7 @@ const db = {
   Sequelize,
   Todo: todoFactory(sequelize),
   Track: trackFactory(sequelize),
+  Stem: stemFactory(sequelize),
 };
 
 Object.values(db).forEach((model: any) => {

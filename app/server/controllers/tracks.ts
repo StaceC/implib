@@ -48,8 +48,7 @@ router.get('/:todoId/config', (req: Request, res: Response) => {
       // error
       console.log("No todo was found with id [" + todoId + "] in the DB");
       res.status(404).send("No element with id[" + todoId + "]");
-    }
-    // Read config file and convert to json the send
+    }    
   });
 });
 
