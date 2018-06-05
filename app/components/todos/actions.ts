@@ -35,7 +35,10 @@ import {
   IMPORT_TRACK_FAILURE,
   IMPORT_FILES,
   IMPORT_FILES_SUCCESS,
-  IMPORT_FILES_FAILURE
+  IMPORT_FILES_FAILURE,
+  IMPORT_FILE,
+  IMPORT_FILE_SUCCESS,
+  IMPORT_FILE_FAILURE
 } from './constants/ActionTypes';
 
 const addTodo = createAction<Todo, string>(
@@ -152,54 +155,66 @@ const importTrackFailure = createAction<void, Todo>(
         }
 );
 
-
-// IMPORTING INDIVIDUAL TRACKS
-export function importFiles(files: File[]) {
-
-
-    files.forEach(file => {
-      //fs.createReadStream((file as any).path).pipe(fs.createWriteStream('tracks' + path.sep + uuidv4() + '.zip'));
-      //unpackArchive(file);
-      unpackArchivePromise(file)
-      .then((track: Track) => { console.log("Track Name[" + track.name+ "]")});
-
-      //console.log("Track[" + track.name + "]");
-      // Create a Zip directory
-      //var trackName:string = "";
-      // const stems:Stem[] = [];
-      // Unpack Zip File
-    });
-
-    // Create DB Entry
-    return (dispatch: Function) => {
-      dispatch({ type: IMPORT_FILES });
+export function importFile(file: File) {
+  return (dispatch: Function) => {
+    dispatch({ type: IMPORT_FILE });
+    unpackArchive(file)
+    .then((track: Track) => {
+      console.log("Track Name[" + track.name+ "]");
       const newId = uuidv4();
-      db.Todo.build( {id: newId.toString(), text: "Hello", completed: true} )
+      db.Todo.build( {id: newId.toString(), text: track.name, completed: true} )
       .save()
-      .then(savedTrack => dispatch(importTrackSuccess(savedTrack as Todo)))
+      .then(savedTrack => {
+        console.log(savedTrack);
+        dispatch(importFileSuccess(savedTrack.get({plain: true}) as Todo))
+      })
       .catch(error => {
         console.log(error);
-        dispatch(importTrackFailure({id: newId.toString(), text: "Hello", completed: false}));
+        dispatch(importFileFailure({id: newId.toString(), text: track.name, completed: false}));
       });
-    }
-
-
-
+    });
+  }
 }
-const importFilesSuccess = createAction<Todo, Todo>(
-  IMPORT_FILES_SUCCESS,
+const importFileSuccess = createAction<Todo, Todo>(
+  IMPORT_FILE_SUCCESS,
   (todo: Todo) => todo
 );
-const importFilesFailure = createAction<void, Todo>(
-  IMPORT_FILES_FAILURE,
+const importFileFailure = createAction<void, Todo>(
+  IMPORT_FILE_FAILURE,
   () => <Todo>{
-          text: 'Failed to import tracks',
+          text: 'Failed to import file',
           completed: false,
           id: "123"
         }
 );
 
-function unpackArchivePromise(file: File): Promise<Track> {
+
+// IMPORTING INDIVIDUAL TRACKS
+export function importFiles(files: File[]) {
+  return (dispatch: Function) => {
+    dispatch({ type: IMPORT_FILES });
+    const dispatchedImportFiles = files.map( file => { return dispatch(importFile(file)) } );
+
+    return Promise.all(dispatchedImportFiles)
+    .then(() => {
+      return dispatch(importFilesSuccess(files));
+    });
+  }
+}
+const importFilesSuccess = createAction<File[], File[]>(
+  IMPORT_FILES_SUCCESS,
+  (files: File[]) => files
+);
+const importFilesFailure = createAction<void, Todo>(
+  IMPORT_FILES_FAILURE,
+  () => <Todo>{
+          text: 'Failed to import files',
+          completed: false,
+          id: "123"
+        }
+);
+
+function unpackArchive(file: File): Promise<Track> {
   return new Promise(function (resolve,reject) {
     var track: Track = <Track>{};
 
@@ -254,58 +269,6 @@ function unpackArchivePromise(file: File): Promise<Track> {
 
 }
 
-
-function unpackArchive(file: File): Track {
-
-  var track: Track = <Track>{};
-
-  yauzl.open((file as any).path, {autoClose: true, lazyEntries: true}, function(err:any, zipfile: ZipFile) {
-    if (err) throw err;
-    zipfile.readEntry();
-    zipfile.on("entry", function(entry: Entry) {
-      if (/\/$/.test(entry.fileName)) {
-        // Directory file names end with '/'.
-        // Note that entires for directories themselves are optional.
-        // An entry's fileName implicitly requires its parent directories to exist.
-        console.log("Zip Directory: " + entry.fileName);
-        const dirname = entry.fileName.replace(/\/$/, "");
-        track.name = dirname;
-        console.log("Dirname[" + dirname + "]");
-        fs.mkdir(path.join(SAVE_DIR, dirname), function(e: any){
-          if(!e || (e && e.code === 'EEXIST')){
-            console.log("Created directory [" + dirname + "]");
-            //do something with contents
-          } else {
-            //debug
-            console.log("Unable to create directory [" + dirname + "]" + e);
-          }
-        });
-
-      } else {
-        // file entry
-        zipfile.openReadStream(entry, function(err, readStream) {
-          if (err) throw err;
-          if(readStream) {
-            readStream.on("end", function() {
-              zipfile.readEntry();
-            });
-            console.log("Zip FileName: " + entry.fileName);
-            //var filename = entry.fileName.replace(/^.*[\\\/]/, '')
-            //console.log("Filename: [" + filename + "]");
-            readStream.pipe(fs.createWriteStream(path.join(SAVE_DIR, entry.fileName)));
-          }
-        });
-      }
-      // Check if the zip file is still open and read the next entry
-      if(zipfile.isOpen) {
-        zipfile.readEntry();
-      }
-    });
-  });
-
-  return track;
-}
-
 export {
   addTodo,
   deleteTodo,
@@ -320,5 +283,7 @@ export {
   importTrackSuccess,
   importTrackFailure,
   importFilesSuccess,
-  importFilesFailure
+  importFilesFailure,
+  importFileSuccess,
+  importFileFailure,
 }

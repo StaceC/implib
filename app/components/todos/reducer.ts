@@ -18,7 +18,9 @@ import {
   IMPORT_TRACKS_FAILURE,
   IMPORT_TRACK_REQUEST,
   IMPORT_TRACK_SUCCESS,
-  IMPORT_TRACK_FAILURE
+  IMPORT_TRACK_FAILURE,
+  IMPORT_FILE_SUCCESS,
+  IMPORT_FILE_FAILURE,
 } from './constants/ActionTypes';
 
 const initialState: IState = {
@@ -105,6 +107,13 @@ export default handleActions<IState, Todo | Todos>({
     )};
   },
   [IMPORT_TRACK_FAILURE]: (state: IState, action: Action<Todo>): IState => {
+    return state;
+  },
+  [IMPORT_FILE_SUCCESS]: (state: IState, action: Action<Todo>): IState => {
+    console.log("Importing File Winning! Action[" + action + "]");    
+    return {...state, todos: [...state.todos, action.payload as Todo]};
+  },
+  [IMPORT_FILE_FAILURE]: (state: IState, action: Action<Todo>): IState => {
     return state;
   },
 
