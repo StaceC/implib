@@ -21,16 +21,6 @@ db.sequelize
         console.error('Unable to connect to the database:', err);
         log.error('Unable to connect to the database: ' + err);
     });
-// Change force to true to wipe DB currently
-db.Todo.sync({force: false}).then(() => {
-  // Table created
-  /*
-  return db.Todo.create({
-    text: 'Something',
-    completed: false
-  });
-  */
-});
 
 // Check for tracks folder to store imported tracks
 var fs = require('fs');

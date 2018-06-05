@@ -1,24 +1,17 @@
-import * as Sequelize from "sequelize";
-import todoFactory from "./todo";
-import trackFactory from "./track";
-import stemFactory from "./stem";
+import {Sequelize} from 'sequelize-typescript';
+import { Todo } from '../stmodels/todo';
 
 const env = process.env.NODE_ENV || "development";
 const config = require(`${__dirname}/../config/config.json`)[env];
-const sequelize = new Sequelize(config.database, config.username, config.password, config);
+const sequelize = new Sequelize(config);
+
+sequelize.addModels([Todo]);
+sequelize.sync({force: true});
 
 const db = {
   sequelize,
   Sequelize,
-  Todo: todoFactory(sequelize),
-  Track: trackFactory(sequelize),
-  Stem: stemFactory(sequelize),
-};
-
-Object.values(db).forEach((model: any) => {
-  if (model.associate) {
-    model.associate(db);
-  }
-});
+  Todo: Todo
+}
 
 export default db;

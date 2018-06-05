@@ -4,7 +4,8 @@
     "password": null,
     "database": "implib_dev",
     "dialect": "sqlite",
-    "storage": "./app/db/implib.dev2.sqlite"
+    "storage": "./app/db/implib.dev2.sqlite",
+    "query": { "raw": true }
   },
   "test": {
     "username": "root",

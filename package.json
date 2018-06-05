@@ -195,7 +195,7 @@
     "redux-thunk": "^2.1.0",
     "reflect-metadata": "^0.1.12",
     "sequelize": "^4.37.8",
-    "sequelize-typescript": "^0.6.4",
+    "sequelize-typescript": "^1.0.0-alpha.3",
     "source-map-support": "^0.5.0",
     "sqlite3": "^4.0.0",
     "uuid": "^3.2.1",
