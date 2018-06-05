@@ -27,6 +27,6 @@ export class Track extends Model<Track> {
   @Column
   deletionDate: Date;
 
-  @HasMany(() => Stem)
+  @HasMany(() => Stem, 'trackId')
   stems: Stem[];
 }
