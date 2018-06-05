@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions';
 
-import { Todo, Todos } from './model';
+import { Todo, Todos, Track } from './model';
 
 import db from "../../db/models";
 
@@ -8,6 +8,8 @@ import * as yauzl from "yauzl";
 import { ZipFile, Entry} from "yauzl";
 import config from "../../config";
 const SAVE_DIR = config.settings.saveDir;
+
+//import { Promise } from "bluebird";
 
 
 //const uuidv4 = require('uuid/v4');
@@ -153,58 +155,36 @@ const importTrackFailure = createAction<void, Todo>(
 
 // IMPORTING INDIVIDUAL TRACKS
 export function importFiles(files: File[]) {
-  return (dispatch: Function) => {
-    dispatch({ type: IMPORT_FILES });
+
+
     files.forEach(file => {
-      fs.createReadStream((file as any).path).pipe(fs.createWriteStream('tracks' + path.sep + uuidv4() + '.zip'));
+      //fs.createReadStream((file as any).path).pipe(fs.createWriteStream('tracks' + path.sep + uuidv4() + '.zip'));
+      //unpackArchive(file);
+      unpackArchivePromise(file)
+      .then((track: Track) => { console.log("Track Name[" + track.name+ "]")});
 
+      //console.log("Track[" + track.name + "]");
       // Create a Zip directory
-
-      // Unzip File
-      yauzl.open((file as any).path, {autoClose: true, lazyEntries: true}, function(err:any, zipfile: ZipFile) {
-        if (err) throw err;
-        zipfile.readEntry();
-        zipfile.on("entry", function(entry: Entry) {
-          if (/\/$/.test(entry.fileName)) {
-            // Directory file names end with '/'.
-            // Note that entires for directories themselves are optional.
-            // An entry's fileName implicitly requires its parent directories to exist.
-            console.log("Zip Directory: " + entry.fileName);
-            const dirname = entry.fileName.replace(/\/$/, "");
-            console.log("Dirname[" + dirname + "]");
-            fs.mkdir(path.join(SAVE_DIR, dirname), function(e: any){
-              if(!e || (e && e.code === 'EEXIST')){
-                console.log("Created directory [" + dirname + "]");
-                //do something with contents
-              } else {
-                //debug
-                console.log("Unable to create directory [" + dirname + "]" + e);
-              }
-            });
-
-          } else {
-            // file entry
-            zipfile.openReadStream(entry, function(err, readStream) {
-              if (err) throw err;
-              if(readStream) {
-                readStream.on("end", function() {
-                  zipfile.readEntry();
-                });
-                console.log("Zip FileName: " + entry.fileName);
-                //var filename = entry.fileName.replace(/^.*[\\\/]/, '')
-                //console.log("Filename: [" + filename + "]");
-                readStream.pipe(fs.createWriteStream(path.join(SAVE_DIR, entry.fileName)));
-              }
-            });
-          }
-          // Check if the zip file is still open and read the next entry
-          if(zipfile.isOpen) {
-            zipfile.readEntry();
-          }
-        });
-      });
+      //var trackName:string = "";
+      // const stems:Stem[] = [];
+      // Unpack Zip File
     });
-  }
+
+    // Create DB Entry
+    return (dispatch: Function) => {
+      dispatch({ type: IMPORT_FILES });
+      const newId = uuidv4();
+      db.Todo.build( {id: newId.toString(), text: "Hello", completed: true} )
+      .save()
+      .then(savedTrack => dispatch(importTrackSuccess(savedTrack as Todo)))
+      .catch(error => {
+        console.log(error);
+        dispatch(importTrackFailure({id: newId.toString(), text: "Hello", completed: false}));
+      });
+    }
+
+
+
 }
 const importFilesSuccess = createAction<Todo, Todo>(
   IMPORT_FILES_SUCCESS,
@@ -218,6 +198,113 @@ const importFilesFailure = createAction<void, Todo>(
           id: "123"
         }
 );
+
+function unpackArchivePromise(file: File): Promise<Track> {
+  return new Promise(function (resolve,reject) {
+    var track: Track = <Track>{};
+
+    yauzl.open((file as any).path, {autoClose: true, lazyEntries: true}, function(err:any, zipfile: ZipFile) {
+      if (err) throw err;
+      zipfile.readEntry();
+      zipfile.on("entry", function(entry: Entry) {
+        if (/\/$/.test(entry.fileName)) {
+          // Directory file names end with '/'.
+          // Note that entires for directories themselves are optional.
+          // An entry's fileName implicitly requires its parent directories to exist.
+          console.log("Zip Directory: " + entry.fileName);
+          const dirname = entry.fileName.replace(/\/$/, "");
+          track.name = dirname;
+          console.log("Dirname[" + dirname + "]");
+          fs.mkdir(path.join(SAVE_DIR, dirname), function(e: any){
+            if(!e || (e && e.code === 'EEXIST')){
+              console.log("Created directory [" + dirname + "]");
+              //do something with contents
+            } else {
+              //debug
+              console.log("Unable to create directory [" + dirname + "]" + e);
+            }
+          });
+
+        } else {
+          // file entry
+          zipfile.openReadStream(entry, function(err, readStream) {
+            if (err) throw err;
+            if(readStream) {
+              readStream.on("end", function() {
+                zipfile.readEntry();
+              });
+              console.log("Zip FileName: " + entry.fileName);
+              //var filename = entry.fileName.replace(/^.*[\\\/]/, '')
+              //console.log("Filename: [" + filename + "]");
+              readStream.pipe(fs.createWriteStream(path.join(SAVE_DIR, entry.fileName)));
+            }
+          });
+        }
+        // Check if the zip file is still open and read the next entry
+        if(zipfile.isOpen) {
+          zipfile.readEntry();
+        }
+
+        resolve(track);
+      });
+    });
+
+
+  })
+
+}
+
+
+function unpackArchive(file: File): Track {
+
+  var track: Track = <Track>{};
+
+  yauzl.open((file as any).path, {autoClose: true, lazyEntries: true}, function(err:any, zipfile: ZipFile) {
+    if (err) throw err;
+    zipfile.readEntry();
+    zipfile.on("entry", function(entry: Entry) {
+      if (/\/$/.test(entry.fileName)) {
+        // Directory file names end with '/'.
+        // Note that entires for directories themselves are optional.
+        // An entry's fileName implicitly requires its parent directories to exist.
+        console.log("Zip Directory: " + entry.fileName);
+        const dirname = entry.fileName.replace(/\/$/, "");
+        track.name = dirname;
+        console.log("Dirname[" + dirname + "]");
+        fs.mkdir(path.join(SAVE_DIR, dirname), function(e: any){
+          if(!e || (e && e.code === 'EEXIST')){
+            console.log("Created directory [" + dirname + "]");
+            //do something with contents
+          } else {
+            //debug
+            console.log("Unable to create directory [" + dirname + "]" + e);
+          }
+        });
+
+      } else {
+        // file entry
+        zipfile.openReadStream(entry, function(err, readStream) {
+          if (err) throw err;
+          if(readStream) {
+            readStream.on("end", function() {
+              zipfile.readEntry();
+            });
+            console.log("Zip FileName: " + entry.fileName);
+            //var filename = entry.fileName.replace(/^.*[\\\/]/, '')
+            //console.log("Filename: [" + filename + "]");
+            readStream.pipe(fs.createWriteStream(path.join(SAVE_DIR, entry.fileName)));
+          }
+        });
+      }
+      // Check if the zip file is still open and read the next entry
+      if(zipfile.isOpen) {
+        zipfile.readEntry();
+      }
+    });
+  });
+
+  return track;
+}
 
 export {
   addTodo,
