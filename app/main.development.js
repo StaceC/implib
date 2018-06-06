@@ -1,8 +1,17 @@
-const { app, BrowserWindow, Menu, shell } = require('electron');
+const { app, BrowserWindow, Menu, shell, Tray } = require('electron');
 
 let menu;
 let template;
 let mainWindow = null;
+let tray = undefined;
+
+const path = require('path')
+
+const iconsDirectory = path.join(__dirname, 'dist', 'icons');
+const trayIcon = 'filmstro_systray_logo_inverted_16.png';
+const trayIconPath = path.join(iconsDirectory, trayIcon);
+
+console.log("trayIconPath[" + trayIconPath + "]");
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
@@ -44,6 +53,8 @@ app.on('ready', () =>
     width: 1024,
     height: 728
   });
+
+  createTray();
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
@@ -274,3 +285,81 @@ app.on('ready', () =>
     mainWindow.setMenu(menu);
   }
 }));
+
+const createTray = () => {
+  tray = new Tray(trayIconPath);
+  tray.setToolTip('Filmastro Audio File Importer');
+  tray.on('right-click', toggleWindow);
+  tray.on('double-click', toggleWindow);
+  tray.setContextMenu(getContextMenu());
+  tray.on('click', function (event) {
+    toggleWindow()
+
+    // Show devtools when command clicked
+    if (mainWindow.isVisible() && process.defaultApp && event.metaKey) {
+      mainWindow.openDevTools({mode: 'detach'})
+    }
+  })
+}
+
+const toggleWindow = () => {
+  if (mainWindow.isVisible()) {
+    mainWindow.hide()
+  } else {
+    showWindow()
+  }
+}
+
+const getContextMenu = () => {
+  return contextMenu = Menu.buildFromTemplate([
+      {
+        label: 'Item1',
+        type: 'radio',
+        icon: trayIconPath
+      },
+      {
+        label: 'Item2',
+        submenu: [
+          { label: 'submenu1' },
+          { label: 'submenu2' }
+        ]
+      },
+      {
+        label: 'Item3',
+        type: 'radio',
+        checked: true
+      },
+      {
+        label: 'Toggle DevTools',
+        accelerator: 'Alt+Command+I',
+        click: function() {
+          mainWindow.show();
+          mainWindow.toggleDevTools();
+        }
+      },
+      { label: 'Quit',
+        accelerator: 'Command+Q',
+        selector: 'terminate:',
+      }
+    ]);
+}
+
+const showWindow = () => {
+  const position = getWindowPosition()
+  mainWindow.setPosition(position.x, position.y, false)
+  mainWindow.show()
+  mainWindow.focus()
+}
+
+const getWindowPosition = () => {
+  const windowBounds = mainWindow.getBounds()
+  const trayBounds = tray.getBounds()
+
+  // Center window horizontally below the tray icon
+  const x = Math.round(trayBounds.x + (trayBounds.width / 2) - (windowBounds.width / 2))
+
+  // Position window 4 pixels vertically below the tray icon
+  const y = Math.round(trayBounds.y + trayBounds.height + 4)
+
+  return {x: x, y: y}
+}
