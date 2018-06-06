@@ -2,7 +2,6 @@ import {
   Table, Column, Model,
   CreatedAt, UpdatedAt, DeletedAt,
   IsUUID, PrimaryKey} from 'sequelize-typescript';
-//import { Track } from '../stmodels';
 
 @Table
 export class Stem extends Model<Stem> {
