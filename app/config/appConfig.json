@@ -1,0 +1,17 @@
+{
+  "development": {
+    "appName": "implib",
+    "databaseName": "implib.dev.sqlite",
+    "tracksDirName": "tracks"
+  },
+  "test": {
+    "appName": "implib",
+    "databaseName": "implib.test.sqlite",
+    "tracksDirName": "tracks"
+  },
+  "production": {
+    "appName": "implib",
+    "databaseName": "implib.prod.sqlite",
+    "tracksDirName": "tracks"
+  }
+}

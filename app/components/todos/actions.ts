@@ -1,21 +1,25 @@
 import { createAction } from 'redux-actions';
-
 import { Todo, Todos, Track } from './model';
-
 import db from "../../db/models";
-
 import * as yauzl from "yauzl";
 import { ZipFile, Entry} from "yauzl";
-import config from "../../config";
-const SAVE_DIR = config.settings.saveDir;
 
-//import { Promise } from "bluebird";
-
-
-//const uuidv4 = require('uuid/v4');
 import fs = require('fs');
 const path = require('path');
 const uuidv4 = require('uuid/v4');
+const env = process.env.NODE_ENV || "development";
+const appConfig = require(`${__dirname}/../../config/appConfig.json`)[env];
+
+var SAVE_DIR  = "";
+
+if (env == "production") {
+  SAVE_DIR = path.join(
+    require("electron").remote.app.getPath("appData"),
+    //appConfig.appName,
+    appConfig.tracksDirName);
+} else {
+  SAVE_DIR = path.join(appConfig.tracksDirName);
+}
 
 import {
   ADD_TODO,
