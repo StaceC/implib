@@ -11,6 +11,7 @@ export default class Home extends React.Component {
           <h2>Home</h2>
           <Link to="/counter">to Counter</Link>
           <Link to="/importer">to Importer</Link>
+          <Link to="/tobeimporter">to be Importer</Link>
         </div>
       </div>
     );

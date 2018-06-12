@@ -7,7 +7,11 @@ import {
   MainSection
 } from './todos';
 
-import { Todo, Todos } from './todos/model'
+import { Todo, Todos } from './todos/model';
+
+import { Link } from 'react-router-dom';
+
+let styles = require('./Counter.scss');
 
 export interface IProps extends RouteComponentProps<any> {
   todos: Todo[];
@@ -49,6 +53,11 @@ export class Importer extends React.Component<IProps> {
 
     return (
       <div className="todoapp">
+        <div className={styles.backButton} data-tid="backButton">
+          <Link to="/">
+            <i className="fa fa-arrow-left fa-3x" />
+          </Link>
+        </div>
         <Header
           addTodo={(text: string) => addTodo(text)}
           importFiles={(files: File[]) => importFiles(files)} />
