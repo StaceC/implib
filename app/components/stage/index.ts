@@ -5,3 +5,4 @@ import * as StageActions from './actions';
 export { StageActions };
 export { StagedTrack } from './model';
 export { default as STAGING_TRACK_STATES } from './constants/StagingTrackStates';
+export { StagedState } from './model';

@@ -1,12 +1,9 @@
 import { createAction } from 'redux-actions';
-import { StagedTrack, STAGING_TRACK_STATES } from '../stage';
 
 const STAGE_TRACKS_REQUEST= 'STAGE_TRACKS_REQUEST';
 const STAGE_TRACKS_SUCCESS = 'STAGE_TRACKS_SUCCEED';
 const STAGE_TRACKS_FAILED = 'STAGE_TRACKS_FAILED';
-const STAGE_TRACK = 'STAGE_TRACK';
-
-const uuidv4 = require('uuid/v4');
+export const STAGE_TRACK = 'STAGE_TRACK';
 
 // IMPORT A LIST OF TRACKS -> CALLS IMPORT TRACK
 export function stageTracks(trackFiles: File[]) {
@@ -37,21 +34,9 @@ const stageTracksFailure = createAction<void, Error>(
   (err: Error) => err
 );
 
-const stageTrack = createAction<StagedTrack, File>(
+const stageTrack = createAction<File, File>(
   STAGE_TRACK,
-
-  // TODO: We will possibly want to check if we can read the file here
-  // Otherwise, return StagedTrack with assigned error.
-  // Same for reading the name, trackFile.name! -> error.
-
-  (trackFile: File) =>
-    ({
-      id: uuidv4(),
-      name: trackFile.name,
-      status: STAGING_TRACK_STATES.STAGED,
-      file: trackFile,
-      error: undefined
-    })
+  (trackFile: File) => trackFile
 );
 
 export {

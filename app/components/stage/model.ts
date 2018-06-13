@@ -4,6 +4,8 @@ export type StagedTrack = {
   id: string;
   name: string;
   status: STAGING_TRACK_STATE;
-  file: File;
+  file?: File;
   error?: Error;
 };
+
+export type StagedState = { stagedTracks: StagedTrack[] };
