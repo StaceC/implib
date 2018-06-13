@@ -1,13 +1,13 @@
 import { createAction } from 'redux-actions';
 import { StagedTrack } from './model';
-import STAGING_TRACK_STATES from './constants/StagingTrackStates';
+//import STAGING_TRACK_STATES from './constants/StagingTrackStates';
 
-const STAGE_TRACK = 'STAGE_TODO';
+const STAGE_TRACK = 'STAGE_TRACK';
 const UNSTAGE_TRACK = 'UNSTAGE_TRACK'
 
-const clearCompleted = createAction<StagedTrack, string>(
+const clearCompleted = createAction<void, string>(
   STAGE_TRACK,
-  (name: string) => ({ id: "", name, status: STAGING_TRACK_STATES.STAGED })
+  (name: string) => {}
 );
 
 const importTracks = createAction<StagedTrack, StagedTrack>(

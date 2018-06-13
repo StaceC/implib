@@ -8,11 +8,12 @@ export default class Home extends React.Component {
     return (
       <div>
         <div className={styles.container} data-tid="container">
-          <h2>Home</h2>
-          <Link to="/counter">to Counter</Link>
-          <Link to="/importer">to Importer</Link>
-          <Link to="/tobeimporter">to be Importer</Link>
+          <h2>Filmstro</h2>
+          <h3>Import Library</h3>
+          <Link to="/prototype">Prototype</Link>
         </div>
+        <Link to="/counter">to Counter</Link>
+        <Link to="/importer">to Importer</Link>
       </div>
     );
   }

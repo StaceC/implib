@@ -10,12 +10,10 @@ export interface StageProps {
 class Stage extends React.Component<StageProps> {
 
   handleClearTracks() {
-    console.log("handleClearTracks");
     this.props.clearCompleted();
   }
 
-  handleImportTracks() {
-    console.log("handleImportTracks");
+  handleImportTracks() {    
     this.props.importTracks();
   }
 
