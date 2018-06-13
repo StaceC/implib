@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 
-import { Upload } from '../../Upload';
-import { Stage } from '../../Stage';
-import { Library } from '../../Library';
+import { Upload } from '../../upload';
+import { Stage, StagedTrack } from '../../stage';
+import { Library } from '../../library';
 
 
 let styles = require('./Prototype.scss');
@@ -14,6 +14,7 @@ export interface PrototypeProps extends RouteComponentProps<any> {
   // Stage Props
   clearCompleted: ()=>void;
   importTracks: ()=>void;
+  stagedTracks: StagedTrack[];
 }
 
 export class Prototype extends React.Component<PrototypeProps> {
@@ -23,6 +24,7 @@ export class Prototype extends React.Component<PrototypeProps> {
       stageTracks,
       clearCompleted,
       importTracks,
+      stagedTracks,
     } = this.props;
 
     return (
@@ -36,6 +38,7 @@ export class Prototype extends React.Component<PrototypeProps> {
           <Stage
             clearCompleted={() => clearCompleted()}
             importTracks={() => importTracks()}
+            stagedTracks={stagedTracks}
           />
         </div>
         <div className={[styles.column, styles.library].join(' ')}>

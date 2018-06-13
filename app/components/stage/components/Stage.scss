@@ -1,0 +1,18 @@
+:local {
+  .stagedTracksList {
+    min-width: 200px;
+    min-height: 200px;
+    width: 80%;
+    margin: auto;
+    padding: 5%;
+    border: dashed 2px white;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+  }
+
+  .stagedTracksList p {
+    width: 100%;
+    color: #AAA;
+  }
+}

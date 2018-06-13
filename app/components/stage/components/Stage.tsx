@@ -1,7 +1,10 @@
 import * as React from 'react';
 import Footer from './Footer';
+import StagedTracksList from './StagedTracksList';
+import { StagedTrack } from '../model';
 
 export interface StageProps {
+  stagedTracks: StagedTrack[];
   clearCompleted: ()=>void;
   importTracks: ()=>void;
 };
@@ -13,8 +16,19 @@ class Stage extends React.Component<StageProps> {
     this.props.clearCompleted();
   }
 
-  handleImportTracks() {    
+  handleImportTracks() {
     this.props.importTracks();
+  }
+
+  renderStagedTracksList() {
+
+    const stagedTracks = this.props.stagedTracks;
+
+    return(
+      <StagedTracksList
+        stagedTracks={stagedTracks}
+      />
+    );
   }
 
   renderFooter() {
@@ -27,7 +41,13 @@ class Stage extends React.Component<StageProps> {
   }
 
   render() {
-    return this.renderFooter();
+    return (
+      <div>
+        <h1>Staged</h1>
+        {this.renderStagedTracksList()}
+        {this.renderFooter()}
+      </div>
+    );
   }
 
 }

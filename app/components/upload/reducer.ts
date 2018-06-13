@@ -10,8 +10,7 @@ const initialState: StagedState = {
 };
 
 export default handleActions<StagedState, File>({
-  [STAGE_TRACK]: (state: StagedState, action: Action<File>): StagedState => {
-    console.log("HERE");
+  [STAGE_TRACK]: (state: StagedState, action: Action<File>): StagedState => {    
     const newStagedTrack: StagedTrack =
     ({
       id: uuidv4(),
