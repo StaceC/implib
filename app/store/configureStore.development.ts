@@ -53,7 +53,7 @@ export = {
 
     if (module.hot) {
       module.hot.accept('../reducers', () =>
-        store.replaceReducer(require('../reducers')) // eslint-disable-line global-require
+        store.replaceReducer(require('../reducers').default) // eslint-disable-line global-require
       );
     }
 
