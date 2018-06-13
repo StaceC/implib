@@ -1,6 +1,8 @@
 import * as React from 'react';
 import Dropzone from 'react-dropzone';
 
+let styles = require('./Upload.scss');
+
 export interface UploadProps {
   stageTracks: (files: File[]) => any;
 };
@@ -13,16 +15,12 @@ class Upload extends React.Component<UploadProps> {
 
   render() {
     return (
-      <header className="header">
-          <h1>Upload</h1>
-
-          <div className="dropzone">
-            <Dropzone onDrop={this.onDrop.bind(this)}>
-              <p>Try dropping some files here, or click to select files to upload.</p>
-            </Dropzone>
-          </div>
-
-      </header>
+      <div>
+        <h1>Upload</h1>
+        <Dropzone className={styles.dropzone} onDrop={this.onDrop.bind(this)}>
+          <p>Try dropping some files here, or click to select files to upload.</p>
+        </Dropzone>
+      </div>
     );
   }
 }

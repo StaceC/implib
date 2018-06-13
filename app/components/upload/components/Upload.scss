@@ -1,0 +1,13 @@
+:local {
+  .dropzone {
+    min-width: 200px;
+    min-height: 200px;
+    width: 80%;
+    margin: auto;
+    padding: 5%;
+    border: dashed 2px white;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+  }
+}
