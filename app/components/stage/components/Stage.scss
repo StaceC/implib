@@ -1,4 +1,22 @@
 :local {
+
+  .stage button {
+    width: 20%;
+    height: 40px;
+    margin: 2% 2%;
+    border-radius: 4px;
+    background: linear-gradient(45deg,#fb6161,#ffad82);
+    border: 0;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,.5);
+    font-size: 14px;
+    font-weight: 100;
+    font-family: Nunito Sans,sans-serif;
+    letter-spacing: .86px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
   .stagedTracksList {
     min-width: 200px;
     min-height: 200px;
@@ -14,5 +32,9 @@
   .stagedTracksList p {
     width: 100%;
     color: #AAA;
+  }
+
+  .stage .footer {
+    margin-top: 10px;
   }
 }

@@ -3,6 +3,8 @@ import Footer from './Footer';
 import StagedTracksList from './StagedTracksList';
 import { StagedTrack } from '../model';
 
+let styles = require('./Stage.scss');
+
 export interface StageProps {
   stagedTracks: StagedTrack[];
   clearCompleted: ()=>void;
@@ -42,7 +44,7 @@ class Stage extends React.Component<StageProps> {
 
   render() {
     return (
-      <div>
+      <div className={styles.stage}>
         <h1>Staged</h1>
         {this.renderStagedTracksList()}
         {this.renderFooter()}
