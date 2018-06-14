@@ -8,7 +8,7 @@ let styles = require('./Stage.scss');
 export interface StageProps {
   stagedTracks: StagedTrack[];
   clearCompleted: ()=>void;
-  importTracks: ()=>void;
+  importStagedTracks: (stagedTracks: StagedTrack[])=>void;
 };
 
 
@@ -19,13 +19,12 @@ class Stage extends React.Component<StageProps> {
   }
 
   handleImportTracks() {
-    this.props.importTracks();
+    const { stagedTracks } = this.props
+    this.props.importStagedTracks(stagedTracks);
   }
 
   renderStagedTracksList() {
-
     const stagedTracks = this.props.stagedTracks;
-
     return(
       <StagedTracksList
         stagedTracks={stagedTracks}

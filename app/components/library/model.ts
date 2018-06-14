@@ -7,4 +7,4 @@ export type Track = {
   error?: Error;
 };
 
-export type LibraryState = { libraryTracks: Track[] };
+export type LibraryState = { tracks: Track[] };

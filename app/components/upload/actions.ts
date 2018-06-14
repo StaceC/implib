@@ -5,7 +5,6 @@ const STAGE_TRACKS_SUCCESS = 'STAGE_TRACKS_SUCCEED';
 const STAGE_TRACKS_FAILED = 'STAGE_TRACKS_FAILED';
 export const STAGE_TRACK = 'STAGE_TRACK';
 
-// IMPORT A LIST OF TRACKS -> CALLS IMPORT TRACK
 export function stageTracks(trackFiles: File[]) {
   return (dispatch: Function) => {
     dispatch({ type: STAGE_TRACKS_REQUEST });

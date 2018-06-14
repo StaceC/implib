@@ -13,7 +13,7 @@ export interface PrototypeProps extends RouteComponentProps<any> {
   stageTracks: (files: File[]) => any;
   // Stage Props
   clearCompleted: ()=>void;
-  importTracks: ()=>void;
+  importStagedTracks: (stagedTracks: StagedTrack[])=>void;
   stagedTracks: StagedTrack[];
   // Library Props
   tracks: Track[];
@@ -25,7 +25,7 @@ export class Prototype extends React.Component<PrototypeProps> {
     const {
       stageTracks,
       clearCompleted,
-      importTracks,
+      importStagedTracks,
       stagedTracks,
       tracks,
     } = this.props;
@@ -40,7 +40,7 @@ export class Prototype extends React.Component<PrototypeProps> {
         <div className={styles.column}>
           <Stage
             clearCompleted={() => clearCompleted()}
-            importTracks={() => importTracks()}
+            importStagedTracks={() => importStagedTracks(stagedTracks)}
             stagedTracks={stagedTracks}
           />
         </div>
