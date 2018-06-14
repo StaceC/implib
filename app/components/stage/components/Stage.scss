@@ -25,8 +25,6 @@
     padding: 5%;
     border: dashed 2px white;
     border-radius: 5px;
-    display: flex;
-    align-items: center;
   }
 
   .stagedTracksList p {
@@ -37,4 +35,19 @@
   .stage .footer {
     margin-top: 10px;
   }
+
+  .stage .stagedTracksList ul {
+    text-align: left;
+    overflow-y: scroll;
+    height: 200px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .stage .stagedTracksList li {
+    background: black;
+    margin: 4px 0px;
+    padding: 10px;
+  }
+
 }

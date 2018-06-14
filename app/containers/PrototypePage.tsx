@@ -7,7 +7,9 @@ import { Prototype, PrototypeProps } from '../components/prototype';
 import { IState } from '../reducers';
 
 function mapStateToProps(state: IState): Partial<PrototypeProps> {
-  return {};
+  return {
+    stagedTracks: state.stagedState.stagedTracks
+  };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<IState>): Partial<PrototypeProps> {
