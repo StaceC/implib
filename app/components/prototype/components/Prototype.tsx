@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router';
 
 import { Upload } from '../../upload';
 import { Stage, StagedTrack } from '../../stage';
-import { Library } from '../../library';
+import { Library, Track } from '../../library';
 
 
 let styles = require('./Prototype.scss');
@@ -15,6 +15,8 @@ export interface PrototypeProps extends RouteComponentProps<any> {
   clearCompleted: ()=>void;
   importTracks: ()=>void;
   stagedTracks: StagedTrack[];
+  // Library Props
+  tracks: Track[];
 }
 
 export class Prototype extends React.Component<PrototypeProps> {
@@ -25,6 +27,7 @@ export class Prototype extends React.Component<PrototypeProps> {
       clearCompleted,
       importTracks,
       stagedTracks,
+      tracks,
     } = this.props;
 
     return (
@@ -42,7 +45,9 @@ export class Prototype extends React.Component<PrototypeProps> {
           />
         </div>
         <div className={[styles.column, styles.library].join(' ')}>
-          <Library />
+          <Library
+            tracks={tracks}
+          />
         </div>
       </div>
     );

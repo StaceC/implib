@@ -1,18 +1,36 @@
 import * as React from 'react';
 
-export interface LibraryProps {
+import TracksList from './TracksList';
+import { Track } from '../model';
 
+let styles = require('./Library.scss');
+
+export interface LibraryProps {
+  tracks: Track[]
 };
 
 
 class Library extends React.Component<LibraryProps> {
 
-  render() {
+  renderTracksList() {
+
+    const tracks = this.props.tracks;
+
     return(
-      <h1>Library</h1>
+      <TracksList
+        tracks={tracks}
+      />
+    );
+  }
+
+  render() {
+    return (
+      <div className={styles.library}>
+        <h1>Library</h1>
+        {this.renderTracksList()}
+      </div>
     );
   }
 
 }
-
 export default Library;
