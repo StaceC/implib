@@ -267,10 +267,7 @@ function unpackArchive(file: File): Promise<Track> {
         resolve(track);
       });
     });
-
-
   })
-
 }
 
 export {

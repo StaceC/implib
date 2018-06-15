@@ -8,4 +8,4 @@ export type StagedTrack = {
   error?: Error;
 };
 
-export type StagedState = { stagedTracks: StagedTrack[] };
+export type StagedState = { tracks: StagedTrack[] };

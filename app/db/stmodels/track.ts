@@ -15,6 +15,12 @@ export class Track extends Model<Track> {
   @Column
   name: string;
 
+  @Column
+  status: string;
+
+  @Column
+  configFileUrl: string;
+
   @CreatedAt
   @Column
   creationDate: Date;

@@ -1,19 +1,21 @@
 import { createAction } from 'redux-actions';
 import { StagedTrack } from './model';
-//import STAGING_TRACK_STATES from './constants/StagingTrackStates';
+import db from "../../db/models";
+import TRACK_STATES from '../library/constants/TrackStates';
+import { Track } from '../../components/library/model';
 
-export const IMPORT_STAGED_TRACKS = 'IMPORT_STAGED_TRACKS';
 export const CLEAR_COMPLETED_IMPORTS = 'CLEAR_COMPLETED_IMPORTS';
+export const IMPORT_STAGED_TRACKS_REQUEST= 'IMPORT_STAGED_TRACKS_REQUEST';
+export const IMPORT_STAGED_TRACKS_SUCCESS = 'IMPORT_STAGED_TRACKS_SUCCEED';
+export const IMPORT_STAGED_TRACKS_FAILED = 'IMPORT_STAGED_TRACKS_FAILED';
+export const IMPORT_STAGED_TRACK_REQUEST = 'IMPORT_STAGED_TRACK';
+export const IMPORT_STAGED_TRACK_SUCCESS = 'IMPORT_STAGED_TRACK_SUCCEED';
+export const IMPORT_STAGED_TRACK_FAILED = 'IMPORT_STAGED_TRACK_FAILED';
 
 const clearCompleted = createAction<void, string>(
   CLEAR_COMPLETED_IMPORTS,
   (name: string) => {}
 );
-
-const IMPORT_STAGED_TRACKS_REQUEST= 'IMPORT_STAGED_TRACKS_REQUEST';
-const IMPORT_STAGED_TRACKS_SUCCESS = 'IMPORT_STAGED_TRACKS_SUCCEED';
-const IMPORT_STAGED_TRACKS_FAILED = 'IMPORT_STAGED_TRACKS_FAILED';
-export const IMPORT_STAGED_TRACK = 'IMPORT_STAGED_TRACK';
 
 export function importStagedTracks(stagedTracks: StagedTrack[]) {
   return (dispatch: Function) => {
@@ -26,8 +28,8 @@ export function importStagedTracks(stagedTracks: StagedTrack[]) {
     .then(() => {
       return dispatch(importStagedTracksSuccess());
     })
-    .catch((err: Error) => {
-      return dispatch(importStagedTracksFailure(err));
+    .catch((error: Error) => {
+      return dispatch(importStagedTracksFailure(error));
     });
   }
 }
@@ -42,14 +44,38 @@ const importStagedTracksFailure = createAction<void, Error>(
   (err: Error) => err
 );
 
-const importStagedTrack = createAction<StagedTrack, StagedTrack>(
-  IMPORT_STAGED_TRACK,
-  (track: StagedTrack) => track
+
+
+
+// IMPORTING INDIVIDUAL TRACKS
+export function importStagedTrack(stagedTrack: StagedTrack) {
+  return (dispatch: Function) => {
+    dispatch({ type: IMPORT_STAGED_TRACK_REQUEST });
+    console.log("Importing Track ["+ stagedTrack + "]");
+    db.Track.build( {id: stagedTrack.id, name: stagedTrack.name, status: TRACK_STATES.IMPORTED } )
+    .save()
+    .then(savedTrack => dispatch(importStagedTrackSuccess(stagedTrack, savedTrack.get({plain: true}) as Track)))
+    .catch(error => {
+      console.log(error);
+      dispatch(importStagedTrackFailure(error));
+    })
+  }
+}
+const importStagedTrackSuccess = createAction<Track, StagedTrack, Track>(
+  IMPORT_STAGED_TRACK_SUCCESS,
+  (stagedTrack: StagedTrack, newTrack: Track) => newTrack
 );
+const importStagedTrackFailure = createAction<void, Error>(
+  IMPORT_STAGED_TRACK_FAILED,
+  (err: Error) => err
+);
+
+
 
 export {
   clearCompleted,
   importStagedTracksSuccess,
   importStagedTracksFailure,
-  importStagedTrack
+  importStagedTrackSuccess,
+  importStagedTrackFailure
 }

@@ -6,11 +6,11 @@ import { StagedTrack, StagedState, STAGING_TRACK_STATES } from '../stage';
 import { STAGE_TRACK } from './actions';
 
 const initialState: StagedState = {
-  stagedTracks: []
+  tracks: []
 };
 
 export default handleActions<StagedState, File>({
-  [STAGE_TRACK]: (state: StagedState, action: Action<File>): StagedState => {    
+  [STAGE_TRACK]: (state: StagedState, action: Action<File>): StagedState => {
     const newStagedTrack: StagedTrack =
     ({
       id: uuidv4(),
@@ -19,6 +19,6 @@ export default handleActions<StagedState, File>({
       file: action && action.payload,
       error: undefined
     })
-    return {...state, stagedTracks: [...state.stagedTracks, newStagedTrack]};
+    return {...state, tracks: [...state.tracks, newStagedTrack]};
   },
 }, initialState);
