@@ -23,7 +23,7 @@ class TracksList extends React.Component<TracksListProps> {
           {tracks.map(track =>
             <TrackListItem
               key={track.id}
-              stagedTrack={track}
+              track={track}
             />
           )}
         </ul>

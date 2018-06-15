@@ -8,7 +8,8 @@ import { IState } from '../reducers';
 
 function mapStateToProps(state: IState): Partial<PrototypeProps> {
   return {
-    stagedTracks: state.staged.tracks
+    stagedTracks: state.staged.tracks,
+    tracks: state.library.tracks    
   };
 }
 

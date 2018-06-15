@@ -4,21 +4,21 @@ import * as React from 'react';
 import { Track } from '..';
 
 interface TrackListItemProps {
-  stagedTrack: Track;
+  track: Track;
   key?: any;
 }
 
 class TrackListItem extends React.Component<TrackListItemProps> {
 
   render() {
-    const stagedTrack = this.props.stagedTrack;
+    const track = this.props.track;
 
     let element;
 
     element = (
       <div className="stagedTrackListItemContainer">
         <label>
-          {stagedTrack.name}
+          {track.name}
         </label>
       </div>
     );

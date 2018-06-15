@@ -60,16 +60,16 @@ export function importStagedTrack(stagedTrack: StagedTrack) {
     }
     db.Track.build( {id: stagedTrack.id, name: stagedTrack.name, status: TRACK_STATES.IMPORTED } )
     .save()
-    .then(savedTrack => dispatch(importStagedTrackSuccess(stagedTrack, savedTrack.get({plain: true}) as Track)))
+    .then(savedTrack => dispatch(importStagedTrackSuccess(savedTrack.get({plain: true}) as Track)))
     .catch(error => {
       console.log(error);
       dispatch(importStagedTrackFailure(error));
     })
   }
 }
-const importStagedTrackSuccess = createAction<Track, StagedTrack, Track>(
+const importStagedTrackSuccess = createAction<Track, Track>(
   IMPORT_STAGED_TRACK_SUCCESS,
-  (stagedTrack: StagedTrack, newTrack: Track) => newTrack
+  (newTrack: Track) => newTrack
 );
 const importStagedTrackFailure = createAction<void, Error>(
   IMPORT_STAGED_TRACK_FAILED,
