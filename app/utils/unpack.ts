@@ -7,7 +7,7 @@ const path = require('path');
 var SAVE_DIR  = "";
 
 const env = process.env.NODE_ENV || "development";
-const appConfig = require(`${__dirname}/../../config/appConfig.json`)[env];
+const appConfig = require(`${__dirname}/../config/appConfig.json`)[env];
 
 if (env == "production") {
   SAVE_DIR = path.join(

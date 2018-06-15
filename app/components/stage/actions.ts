@@ -3,6 +3,7 @@ import { StagedTrack } from './model';
 import db from "../../db/models";
 import TRACK_STATES from '../library/constants/TrackStates';
 import { Track } from '../../components/library/model';
+import { unpackArchive } from '../../utils/unpack';
 
 export const CLEAR_COMPLETED_IMPORTS = 'CLEAR_COMPLETED_IMPORTS';
 export const IMPORT_STAGED_TRACKS_REQUEST= 'IMPORT_STAGED_TRACKS_REQUEST';
@@ -52,6 +53,11 @@ export function importStagedTrack(stagedTrack: StagedTrack) {
   return (dispatch: Function) => {
     dispatch({ type: IMPORT_STAGED_TRACK_REQUEST });
     console.log("Importing Track ["+ stagedTrack + "]");
+    if(stagedTrack.file) {
+      unpackArchive(stagedTrack.file);
+    } else {
+      dispatch(importStagedTrackFailure(new Error("Staged Track file attribute is undefined")));
+    }
     db.Track.build( {id: stagedTrack.id, name: stagedTrack.name, status: TRACK_STATES.IMPORTED } )
     .save()
     .then(savedTrack => dispatch(importStagedTrackSuccess(stagedTrack, savedTrack.get({plain: true}) as Track)))
