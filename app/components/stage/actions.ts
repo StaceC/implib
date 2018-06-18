@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions';
 import { StagedTrack } from './model';
-import db from "../../db/models";
+import db from "../../db";
 import TRACK_STATES from '../library/constants/TrackStates';
 import { Track } from '../../components/library/model';
 import { unpackArchive } from '../../utils/unpack';

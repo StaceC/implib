@@ -1,5 +1,5 @@
 import {Router, Request, Response } from 'express';
-import db from "../../db/models";
+import db from "../../db";
 import fs = require("fs");
 import path = require("path");
 import config from "../../config";

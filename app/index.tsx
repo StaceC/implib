@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
 import './app.global.scss';
-import db from './db/models';
+import db from './db';
 
 const path = require('path');
 const fs = require('fs');

@@ -1,24 +1,38 @@
-import * as Sequelize from "sequelize";
-import { DefineAttributes } from "sequelize";
+import {
+  Table, Column, Model,
+  HasMany, CreatedAt, UpdatedAt,
+  DeletedAt, IsUUID, PrimaryKey} from 'sequelize-typescript';
+import { Stem } from "./stem";
 
-interface TrackAttributes {
-  id?: string;
+@Table
+export class Track extends Model<Track> {
+
+  @IsUUID(4)
+  @PrimaryKey
+  @Column
+  id: string;
+
+  @Column
   name: string;
+
+  @Column
   status: string;
-  createdAt?: string;
-  updatedAt?: string;
-  error?: string;
+
+  @Column
+  configFileUrl: string;
+
+  @CreatedAt
+  @Column
+  creationDate: Date;
+
+  @UpdatedAt
+  @Column
+  updatedOn: Date;
+
+  @DeletedAt
+  @Column
+  deletionDate: Date;
+
+  @HasMany(() => Stem, 'trackId')
+  stems: Stem[];
 }
-
-type TrackInstance = Sequelize.Instance<TrackAttributes> & TrackAttributes;
-
-export default (sequalize: Sequelize.Sequelize) => {
-  const attributes: DefineAttributes = {
-    id: { type: Sequelize.UUID, primaryKey: true, defaultValue: Sequelize.UUIDV4 },
-    name: { type: Sequelize.STRING, allowNull: false },
-    status: { type: Sequelize.STRING, allowNull: false },
-    imported: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
-    error: { type: Sequelize.STRING, allowNull: true },
-  };
-  return sequalize.define<TrackInstance, TrackAttributes>("Track", attributes);
-};
