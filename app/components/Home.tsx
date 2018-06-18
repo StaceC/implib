@@ -12,8 +12,6 @@ export default class Home extends React.Component {
           <h3>Import Library</h3>
           <Link to="/prototype">Prototype</Link>
         </div>
-        <Link to="/counter">to Counter</Link>
-        <Link to="/importer">to Importer</Link>
       </div>
     );
   }
