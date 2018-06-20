@@ -5,6 +5,9 @@ import TRACK_STATES from '../components/library/constants/TrackStates';
 import { Track } from '../components/library/model';
 import { unpackArchive } from '../utils/unpack';
 
+export const GET_LIBRARY_TRACKS_REQUEST = 'GET_LIBRARY_TRACKS_REQUEST';
+export const GET_LIBRARY_TRACKS_SUCCESS = 'GET_LIBRARY_TRACKS_SUCCESS';
+export const GET_LIBRARY_TRACKS_FAILURE = 'GET_LIBRARY_TRACKS_FAILURE';
 export const CLEAR_COMPLETED_IMPORTS = 'CLEAR_COMPLETED_IMPORTS';
 export const IMPORT_STAGED_TRACKS_REQUEST= 'IMPORT_STAGED_TRACKS_REQUEST';
 export const IMPORT_STAGED_TRACKS_SUCCESS = 'IMPORT_STAGED_TRACKS_SUCCEED';
@@ -45,9 +48,6 @@ const importStagedTracksFailure = createAction<void, Error>(
   (err: Error) => err
 );
 
-
-
-
 // IMPORTING INDIVIDUAL TRACKS
 export function importStagedTrack(stagedTrack: StagedTrack) {
   return (dispatch: Function) => {
@@ -83,11 +83,30 @@ const importStagedTrackFailure = createAction<void, Error>(
 );
 
 
+// GET TRACKS FROM DB
+export function getTracks() {
+  return (dispatch: Function) => {
+    dispatch({ type: GET_LIBRARY_TRACKS_REQUEST });
+    return db.Track.findAll({ raw: true })
+      .then(tracks => dispatch(getTracksSuccess(tracks as Track[])))
+      .catch((error: any) => dispatch( getTracksFailure(error)))
+  }
+}
+const getTracksSuccess = createAction<Track[], Track[]>(
+  GET_LIBRARY_TRACKS_SUCCESS,
+  (tracks: Track[]) => tracks
+);
+const getTracksFailure = createAction<void, Error>(
+  GET_LIBRARY_TRACKS_FAILURE,
+  () => {}
+);
 
 export {
   clearCompleted,
   importStagedTracksSuccess,
   importStagedTracksFailure,
   importStagedTrackSuccess,
-  importStagedTrackFailure
+  importStagedTrackFailure,
+  getTracksSuccess,
+  getTracksFailure
 }

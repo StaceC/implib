@@ -14,6 +14,9 @@ export class Stem extends Model<Stem> {
   @Column
   name: string;
 
+  @Column
+  status: string;
+
   @CreatedAt
   creationDate: Date;
 

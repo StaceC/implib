@@ -1,11 +1,14 @@
 import TRACK_STATE from "./constants/TrackStates";
 
-export type LibraryState = { tracks: Track[] };
+export type LibraryState = {
+  tracks: Track[],
+  isFetching: boolean
+};
 
 export type Stem = {
   id: string;
   name: string;
-  completed: boolean;
+  status: string;
 }
 
 export type Track = {

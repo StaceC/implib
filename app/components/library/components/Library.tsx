@@ -6,7 +6,8 @@ import { Track } from '../model';
 let styles = require('./Library.scss');
 
 export interface LibraryProps {
-  tracks: Track[]
+  tracks: Track[];
+  getTracks: () => void;
 };
 
 
@@ -30,6 +31,10 @@ class Library extends React.Component<LibraryProps> {
         {this.renderTracksList()}
       </div>
     );
+  }
+
+  componentDidMount() {
+    this.props.getTracks();
   }
 
 }

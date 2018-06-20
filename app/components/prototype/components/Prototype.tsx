@@ -17,6 +17,7 @@ export interface PrototypeProps extends RouteComponentProps<any> {
   stagedTracks: StagedTrack[];
   // Library Props
   tracks: Track[];
+  getTracks: ()=>void;
 }
 
 export class Prototype extends React.Component<PrototypeProps> {
@@ -28,6 +29,7 @@ export class Prototype extends React.Component<PrototypeProps> {
       importStagedTracks,
       stagedTracks,
       tracks,
+      getTracks,
     } = this.props;
 
     return (
@@ -47,6 +49,7 @@ export class Prototype extends React.Component<PrototypeProps> {
         <div className={[styles.column, styles.library].join(' ')}>
           <Library
             tracks={tracks}
+            getTracks={getTracks}
           />
         </div>
       </div>
