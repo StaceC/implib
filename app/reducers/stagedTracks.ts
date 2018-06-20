@@ -1,9 +1,9 @@
 import { handleActions, Action } from 'redux-actions';
 const uuidv4 = require('uuid/v4');
 
-import { StagedTrack, StagedState, STAGING_TRACK_STATES } from '../stage';
+import { StagedTrack, StagedState, STAGING_TRACK_STATES } from '../components/stage';
 
-import { STAGE_TRACK } from '../../actions';
+import { STAGE_TRACK } from '../actions';
 
 const initialState: StagedState = {
   tracks: []

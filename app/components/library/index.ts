@@ -4,5 +4,3 @@ export { LibraryProps } from './components/Library';
 export { Track } from './model';
 export { default as TRACK_STATES } from './constants/TrackStates';
 export { LibraryState } from './model';
-import reducer from './reducer';
-export default reducer;

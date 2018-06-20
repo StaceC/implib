@@ -1,8 +1,9 @@
 import { combineReducers, Reducer } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
-import { default as staged } from '../components/upload';
 import { StagedState } from '../components/stage';
-import { default as library, LibraryState } from '../components/library';
+import { LibraryState } from '../components/library';
+import library from './libraryTracks';
+import staged from './stagedTracks';
 
 const rootReducer = combineReducers({
   staged,
