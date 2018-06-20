@@ -1,6 +1,6 @@
 import { Track } from '../components/library';
 import * as yauzl from "yauzl";
-import { ZipFile, Entry} from "yauzl";
+import { ZipFile, Entry } from "yauzl";
 import fs = require('fs');
 const path = require('path');
 

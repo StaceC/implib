@@ -1,9 +1,9 @@
 import { createAction } from 'redux-actions';
-import { StagedTrack } from './model';
-import db from "../../db";
-import TRACK_STATES from '../library/constants/TrackStates';
-import { Track } from '../../components/library/model';
-import { unpackArchive } from '../../utils/unpack';
+import { StagedTrack } from '../components/stage/model';
+import db from "../db";
+import TRACK_STATES from '../components/library/constants/TrackStates';
+import { Track } from '../components/library/model';
+import { unpackArchive } from '../utils/unpack';
 
 export const CLEAR_COMPLETED_IMPORTS = 'CLEAR_COMPLETED_IMPORTS';
 export const IMPORT_STAGED_TRACKS_REQUEST= 'IMPORT_STAGED_TRACKS_REQUEST';
