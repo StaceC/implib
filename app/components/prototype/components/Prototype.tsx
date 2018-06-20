@@ -34,6 +34,9 @@ export class Prototype extends React.Component<PrototypeProps> {
 
     return (
       <div className={styles.prototype}>
+        <div>
+          <img src="./dist/Sharknado.png" width="25%"/>
+        </div>
         <div className={styles.column}>
           <Upload
             stageTracks={(files: File[]) => stageTracks(files)}
