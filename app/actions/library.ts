@@ -61,19 +61,24 @@ export function importStagedTrack(stagedTrack: StagedTrack) {
             .save()
             .then(savedTrack => dispatch(importStagedTrackSuccess(savedTrack.get({plain: true}) as Track)))
             .catch(error => {
-              console.log(error);
-              dispatch(importStagedTrackFailure(error));
+              console.log("Database Failure: " + error);
+              stagedTrack.error = error;
+              dispatch(importStagedTrackFailure(stagedTrack));
             });
           }
         ).catch(error => {
           console.log(error);
-          dispatch(importStagedTrackFailure(error));
+          stagedTrack.error = error;
+          dispatch(importStagedTrackFailure(stagedTrack));
         });
       } catch(error) {
-        dispatch(importStagedTrackFailure(error));
+        stagedTrack.error = error;
+        dispatch(importStagedTrackFailure(stagedTrack));
       }
     } else {
-      dispatch(importStagedTrackFailure(new Error("Staged Track file attribute is undefined")));
+      const error = new Error("Staged Track file attribute is undefined");
+      stagedTrack.error = error;
+      dispatch(importStagedTrackFailure(stagedTrack));
     }
   }
 }
@@ -81,9 +86,9 @@ const importStagedTrackSuccess = createAction<Track, Track>(
   IMPORT_STAGED_TRACK_SUCCESS,
   (newTrack: Track) => newTrack
 );
-const importStagedTrackFailure = createAction<void, Error>(
+const importStagedTrackFailure = createAction<StagedTrack, StagedTrack>(
   IMPORT_STAGED_TRACK_FAILED,
-  (err: Error) => err
+  (stagedTrack: StagedTrack) => stagedTrack
 );
 
 
