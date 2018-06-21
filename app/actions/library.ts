@@ -54,20 +54,24 @@ export function importStagedTrack(stagedTrack: StagedTrack) {
     dispatch({ type: IMPORT_STAGED_TRACK_REQUEST });
     console.log("Importing Track ["+ stagedTrack + "]");
     if(stagedTrack.file) {
-      unpackArchive(stagedTrack.file)
-      .then(newTrack => {
-          db.Track.build( {id: stagedTrack.id, name: newTrack.name, status: TRACK_STATES.IMPORTED } )
-          .save()
-          .then(savedTrack => dispatch(importStagedTrackSuccess(savedTrack.get({plain: true}) as Track)))
-          .catch(error => {
-            console.log(error);
-            dispatch(importStagedTrackFailure(error));
-          });
-        }
-      ).catch(error => {
-        console.log(error);
+      try{
+        unpackArchive(stagedTrack.file)
+        .then(newTrack => {
+            db.Track.build( {id: stagedTrack.id, name: newTrack.name, status: TRACK_STATES.IMPORTED } )
+            .save()
+            .then(savedTrack => dispatch(importStagedTrackSuccess(savedTrack.get({plain: true}) as Track)))
+            .catch(error => {
+              console.log(error);
+              dispatch(importStagedTrackFailure(error));
+            });
+          }
+        ).catch(error => {
+          console.log(error);
+          dispatch(importStagedTrackFailure(error));
+        });
+      } catch(error) {
         dispatch(importStagedTrackFailure(error));
-      });
+      }
     } else {
       dispatch(importStagedTrackFailure(new Error("Staged Track file attribute is undefined")));
     }

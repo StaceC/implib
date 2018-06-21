@@ -19,7 +19,7 @@ console.log("SQLite DB instantiated at [" + dbConfig.storage + "]");
 
 const sequelize = new Sequelize(dbConfig);
 sequelize.addModels([ Stem, Track]);
-sequelize.sync({force: false});
+sequelize.sync({force: true});
 
 const db = {
   sequelize,
