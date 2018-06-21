@@ -14,7 +14,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "sqlite3": "^4.0.0"
+    "cross-unzip": "^0.2.1",
+    "sqlite3": "^4.0.0",
+    "win-7zip": "^0.1.1"
   },
   "devDependencies": {
     "electron-builder": "^20.13.4"

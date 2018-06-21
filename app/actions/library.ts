@@ -3,7 +3,8 @@ import { StagedTrack } from '../components/stage/model';
 import db from "../db";
 import TRACK_STATES from '../components/library/constants/TrackStates';
 import { Track } from '../components/library/model';
-import { unpackArchive } from '../utils/unpack';
+//import { unpackArchive } from '../utils/unpack';
+import { unpackArchive } from '../utils/unzip';
 
 export const GET_LIBRARY_TRACKS_REQUEST = 'GET_LIBRARY_TRACKS_REQUEST';
 export const GET_LIBRARY_TRACKS_SUCCESS = 'GET_LIBRARY_TRACKS_SUCCESS';
