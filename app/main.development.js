@@ -67,10 +67,6 @@ app.on('ready', () =>
     mainWindow = null;
   });
 
-  // Trying to open dev tools in production
-  // TODO: Remove for real prod
-  mainWindow.openDevTools();
-
   if (process.env.NODE_ENV === 'development') {
     mainWindow.openDevTools();
     mainWindow.webContents.on('context-menu', (e, props) => {

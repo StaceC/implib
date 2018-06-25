@@ -26,7 +26,7 @@ class Library extends React.Component<LibraryProps> {
 
   render() {
     return (
-      <div className={styles.library}>
+      <div className={styles.library} data-tid="library_tracks">
         <h1>Library</h1>
         {this.renderTracksList()}
       </div>

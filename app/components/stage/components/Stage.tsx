@@ -43,7 +43,7 @@ class Stage extends React.Component<StageProps> {
 
   render() {
     return (
-      <div className={styles.stage}>
+      <div className={styles.stage} data-tid="staged_tracks">
         <h1>Staged</h1>
         {this.renderStagedTracksList()}
         {this.renderFooter()}

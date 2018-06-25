@@ -10,7 +10,7 @@ export default class Home extends React.Component {
         <div className={styles.container} data-tid="container">
           <h2>Filmstro</h2>
           <h3>Import Library</h3>
-          <Link to="/prototype">Prototype</Link>
+          <span data-tid="prototype_link"><Link to="/prototype">Prototype</Link></span>
         </div>
       </div>
     );

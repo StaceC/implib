@@ -15,7 +15,7 @@ class Upload extends React.Component<UploadProps> {
 
   render() {
     return (
-      <div>
+      <div data-tid="upload_tracks">
         <h1>Upload</h1>
         <Dropzone className={styles.dropzone} onDrop={this.onDrop.bind(this)}>
           <p>Try dropping some files here, or click to select files to upload.</p>
