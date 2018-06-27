@@ -1,24 +1,24 @@
 import * as React from 'react';
 //import * as classNames from 'classnames';
 
-import { Track } from '..';
+import { StagedTrack } from '../../models';
 
-interface TrackListItemProps {
-  track: Track;
+interface StagedTrackListItemProps {
+  stagedTrack: StagedTrack;
   key?: any;
 }
 
-class TrackListItem extends React.Component<TrackListItemProps> {
+class StagedTrackListItem extends React.Component<StagedTrackListItemProps> {
 
   render() {
-    const track = this.props.track;
+    const stagedTrack = this.props.stagedTrack;
 
     let element;
 
     element = (
       <div className="stagedTrackListItemContainer">
         <label>
-          {track.name}
+          {stagedTrack.name}
         </label>
       </div>
     );
@@ -31,4 +31,4 @@ class TrackListItem extends React.Component<TrackListItemProps> {
   }
 }
 
-export default TrackListItem;
+export default StagedTrackListItem;

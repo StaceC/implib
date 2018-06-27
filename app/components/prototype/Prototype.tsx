@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 
-import { Upload } from '../../upload';
-import { Stage, StagedTrack } from '../../stage';
-import { Library, Track } from '../../library';
+import { Upload } from '../upload';
+import { Stage } from '../stage';
+import { Library } from '../library';
+
+import { Track, StagedTrack } from '../../models';
 
 
 let styles = require('./Prototype.scss');

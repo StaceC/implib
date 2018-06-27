@@ -1,7 +1,7 @@
 import { handleActions, Action } from 'redux-actions';
 const uuidv4 = require('uuid/v4');
 
-import { StagedTrack, StagedState, STAGING_TRACK_STATES } from '../components/stage';
+import { StagedTrack, StagedState, STAGING_TRACK_STATES } from '../models';
 import { LibraryActions } from '../actions';
 import { STAGE_TRACK } from '../actions';
 

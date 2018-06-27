@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import TracksList from './TracksList';
-import { Track } from '../model';
+import { Track } from '../../models';
 
 let styles = require('./Library.scss');
 

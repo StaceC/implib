@@ -1,6 +1,6 @@
 
 import { handleActions, Action } from 'redux-actions';
-import { Track, LibraryState } from '../components/library/model';
+import { Track, LibraryState } from '../models';
 import { LibraryActions } from '../actions';
 
 const initialState: LibraryState = {

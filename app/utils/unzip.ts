@@ -1,4 +1,4 @@
-import { Track } from '../components/library';
+import { Track } from '../models';
 
 const path = require('path');
 const unpack = require('cross-unzip').unzip;
@@ -9,7 +9,7 @@ var SAVE_DIR  = "";
 
 if (env == "production") {
   SAVE_DIR = path.join(
-    require("electron").remote.app.getPath("appData"),    
+    require("electron").remote.app.getPath("appData"),
     appConfig.tracksDirName);
 } else {
   SAVE_DIR = path.join(appConfig.tracksDirName);

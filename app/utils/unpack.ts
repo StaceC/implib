@@ -1,4 +1,4 @@
-import { Track } from '../components/library';
+import { Track } from '../models';
 import * as yauzl from "yauzl";
 import { ZipFile, Entry } from "yauzl";
 import fs = require('fs');

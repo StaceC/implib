@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Footer from './Footer';
 import StagedTracksList from './StagedTracksList';
-import { StagedTrack } from '../model';
+import { StagedTrack } from '../../models';
 
 let styles = require('./Stage.scss');
 

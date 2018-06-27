@@ -1,2 +1,2 @@
-export { default as Prototype } from './components/Prototype';
-export { PrototypeProps } from './components/Prototype';
+export { default as Prototype } from './Prototype';
+export { PrototypeProps } from './Prototype';

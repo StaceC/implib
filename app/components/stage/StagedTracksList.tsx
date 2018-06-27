@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StagedTrack } from '../model';
+import { StagedTrack } from '../../models';
 import StagedTrackListItem from './StagedTrackListItem';
 
 let styles = require('./Stage.scss');
