@@ -22,15 +22,15 @@ function setup() {
   };
 }
 
-describe('Stage component', () => {
+describe('Stage component Footer', () => {
 
-  it('should first button should call clear completed imports', () => {
+  it('first button should call clear completed imports', () => {
     const { buttons, actions } = setup();
     buttons.at(0).simulate('click');
     expect(actions.onClearTracks.called).toBe(true);
   });
 
-  it('should second button should call import', () => {
+  it('second button should call import', () => {
     const { buttons, actions } = setup();
     buttons.at(1).simulate('click');
     expect(actions.onImportTracks.called).toBe(true);
