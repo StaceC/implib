@@ -3,7 +3,6 @@ import { spy } from 'sinon';
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { Footer } from '../../app/components/Stage';
-import {} from 'jest';
 
 const StageFooterAny = Footer as any;
 
