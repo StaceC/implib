@@ -1,7 +1,8 @@
 import {
   Table, Column, Model,
   HasMany, CreatedAt, UpdatedAt,
-  DeletedAt, IsUUID, PrimaryKey} from 'sequelize-typescript';
+  DeletedAt, IsUUID, PrimaryKey,
+  DataType} from 'sequelize-typescript';
 import { Stem } from "./stem";
 
 @Table
@@ -22,15 +23,15 @@ export class Track extends Model<Track> {
   configFileUrl: string;
 
   @CreatedAt
-  @Column
+  @Column(DataType.DATE)
   creationDate: Date;
 
   @UpdatedAt
-  @Column
+  @Column(DataType.DATE)
   updatedOn: Date;
 
   @DeletedAt
-  @Column
+  @Column(DataType.DATE)
   deletionDate: Date;
 
   @HasMany(() => Stem, 'trackId')

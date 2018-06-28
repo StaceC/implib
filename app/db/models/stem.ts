@@ -1,7 +1,7 @@
 import {
   Table, Column, Model,
   CreatedAt, UpdatedAt, DeletedAt,
-  IsUUID, PrimaryKey} from 'sequelize-typescript';
+  IsUUID, PrimaryKey, DataType} from 'sequelize-typescript';
 
 @Table
 export class Stem extends Model<Stem> {
@@ -18,11 +18,14 @@ export class Stem extends Model<Stem> {
   status: string;
 
   @CreatedAt
+  @Column(DataType.DATE)
   creationDate: Date;
 
   @UpdatedAt
+  @Column(DataType.DATE)
   updatedOn: Date;
 
   @DeletedAt
+  @Column(DataType.DATE)
   deletionDate: Date;
 }
