@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions';
 import { StagedTrack, TRACK_STATES, Track } from '../models';
-import db from "../db";
+import { DatabaseManager } from "../db";
 //import { unpackArchive } from '../utils/unpack';
 import { unpackArchive } from '../utils/unzip';
 
@@ -56,9 +56,14 @@ export function importStagedTrack(stagedTrack: StagedTrack) {
       try{
         unpackArchive(stagedTrack.file)
         .then(newTrack => {
-            db.Track.build( {id: stagedTrack.id, name: newTrack.name, status: TRACK_STATES.IMPORTED } )
+            DatabaseManager.getInstance().Track.build({
+              id: stagedTrack.id,
+              name: newTrack.name,
+              status: TRACK_STATES.IMPORTED })
             .save()
-            .then(savedTrack => dispatch(importStagedTrackSuccess(savedTrack.get({plain: true}) as Track)))
+            .then( savedTrack => dispatch(
+              importStagedTrackSuccess(savedTrack.get({plain: true}) as Track)
+            ))
             .catch(error => {
               console.log("Database Failure: " + error);
               stagedTrack.error = error;
@@ -95,7 +100,7 @@ const importStagedTrackFailure = createAction<StagedTrack, StagedTrack>(
 export function getTracks() {
   return (dispatch: Function) => {
     dispatch({ type: GET_LIBRARY_TRACKS_REQUEST });
-    return db.Track.findAll({ raw: true })
+    return DatabaseManager.getInstance().Track.findAll({ raw: true })
       .then(tracks => dispatch(getTracksSuccess(tracks as Track[])))
       .catch((error: any) => dispatch( getTracksFailure(error)))
   }

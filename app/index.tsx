@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
 import './app.global.scss';
-import db from './db';
+import { DatabaseManager } from './db';
 
 const path = require('path');
 const fs = require('fs');
@@ -13,24 +13,14 @@ const appConfig = require(`${__dirname}/config/appConfig.json`)[env];
 const { configureStore, history } = require('./store/configureStore');
 const store = configureStore();
 
-// LOGGER
-// TODO: This isn't logging :(
-var log = require('electron-log');
-
 
 // DATABASE
 // TODO: Move to separate module and instantiate DB propery.
-db.sequelize
-    .authenticate()
-    .then(() => {
-        console.log('Connection has been established successfully.');
-        log.info('Connection has been established successfully.');
-    })
-    .catch((err: any) => {
-        console.error('Unable to connect to the database:', err);
-        log.error('Unable to connect to the database: ' + err);
-        throw("Database connection error. Halting app. You need to have a database in order to proceed. Check DB config settings and DB location access.");
-    });
+DatabaseManager.init()
+.then(database => DatabaseManager.isActive())
+.catch(err =>  {
+  throw("Database connection error. Halting app. You need to have a database in order to proceed. Check DB config settings and DB location access.")
+});
 
 
 // TODO: Get these paths configured and available in a global settings file

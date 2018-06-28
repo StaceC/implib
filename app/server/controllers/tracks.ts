@@ -1,5 +1,5 @@
 import {Router, Request, Response } from 'express';
-import db from "../../db";
+import { DatabaseManager } from "../../db";
 import fs = require("fs");
 import path = require("path");
 import config from "../../config";
@@ -9,21 +9,21 @@ const router: Router = Router();
 
 // GET tracks listing.
 router.get('/', (req: Request, res: Response) => {
-  db.Track.findAll({ raw: true })
+  DatabaseManager.getInstance().Track.findAll({ raw: true })
   .then(tracks => res.send(tracks));
 });
 
 // Get track info.
 router.get('/:trackId', (req: Request, res: Response) => {
   const trackId = req.params.trackId;
-  db.Track.findById(trackId)
+  DatabaseManager.getInstance().Track.findById(trackId)
   .then(track => res.send(track));
 });
 
 // Get todo info.
 router.get('/:trackId/config', (req: Request, res: Response) => {
   const trackId = req.params.trackId;
-  db.Track.findById(trackId)
+  DatabaseManager.getInstance().Track.findById(trackId)
   .then((track) => {
     if(track) {
       const configFilePath = path.join(SAVE_DIR, track.name, "config.json");
