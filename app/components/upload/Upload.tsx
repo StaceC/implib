@@ -1,5 +1,10 @@
 import * as React from 'react';
-import Dropzone from 'react-dropzone';
+//import Dropzone from 'react-dropzone';
+/* tslint:disable-next-line */
+let Dropzone = require('react-dropzone')
+if ('default' in Dropzone) {
+  Dropzone = Dropzone.default
+}
 
 let styles = require('./Upload.scss');
 
